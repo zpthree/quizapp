@@ -1,6 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import withLayout from 'components/withLayout';
+import withLayout from '@components/withLayout';
 
 const ALL_QUIZZES_QUERY = gql`
   {

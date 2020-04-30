@@ -1,37 +1,17 @@
 import 'isomorphic-unfetch';
 import App from 'next/app';
-import {
-  ApolloProvider,
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-  gql,
-} from '@apollo/client';
-import { endpoint } from '../config';
+import { ApolloProvider } from '@apollo/client';
+import PropTypes from 'prop-types';
+import withData from '@lib/withData';
 
-const httpLink = new HttpLink({
-  uri: endpoint,
-  credentials: 'include',
-});
-
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: httpLink,
-});
-
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, apollo }) {
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apollo}>
       <Component {...pageProps} />
     </ApolloProvider>
   );
 }
 
-// Only uncomment this method if you have blocking data requirements for
-// every single page in your application. This disables the ability to
-// perform automatic static optimization, causing every page in your app to
-// be server-side rendered.
-//
 MyApp.getInitialProps = async appContext => {
   // calls page's `getInitialProps` and fills `appProps.pageProps`
   const appProps = await App.getInitialProps(appContext);
@@ -39,4 +19,10 @@ MyApp.getInitialProps = async appContext => {
   return { ...appProps };
 };
 
-export default MyApp;
+MyApp.propTypes = {
+  Component: PropTypes.func.isRequired,
+  pageProps: PropTypes.object.isRequired,
+  apollo: PropTypes.object.isRequired,
+};
+
+export default withData(MyApp);
