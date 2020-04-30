@@ -5,12 +5,17 @@
     [
       "module-resolver",
       {
-        "root": ["./"],
-        "alias": {
-          "test": "./test",
-          "underscore": "lodash"
-        }
+        "root": ["."]
       }
-    ]
+    ],
+    [
+      "styled-components",
+      {
+        "ssr": true,
+        "displayName": true,
+        "preprocess": false
+      }
+    ],
+    ["@babel/plugin-proposal-optional-chaining"]
   ]
 }
