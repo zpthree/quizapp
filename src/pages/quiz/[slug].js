@@ -1,9 +1,10 @@
+import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import withLayout from '@components/withLayout';
 
-const GET_QUIZ_QUERY = gql`
+export const GET_QUIZ_QUERY = gql`
   query($slug: String!) {
     oneQuiz(slug: $slug) {
       id
@@ -24,6 +25,7 @@ const GET_QUIZ_QUERY = gql`
 `;
 
 function Quiz() {
+  const isDocument = typeof document !== `undefined`;
   const router = useRouter();
   const { slug } = router.query;
   const { loading, error, data } = useQuery(GET_QUIZ_QUERY, {
@@ -35,6 +37,8 @@ function Quiz() {
 
   const quiz = data.oneQuiz;
 
+  console.log(quiz.questions);
+
   return (
     <QuizStyles>
       <h1>{quiz.title}</h1>
@@ -45,14 +49,14 @@ function Quiz() {
           <button
             type="button"
             onClick={() => {
+              // TODO if there is already a quiz in progress
               router.push(
                 '/quiz/[slug]/take-quiz/[qid]',
                 `/quiz/${slug}/take-quiz/${quiz.questions[0].id}`
               );
-              localStorage.setItem(
-                'activeQuiz',
-                JSON.stringify(quiz.questions)
-              );
+              if (isDocument) {
+                localStorage.setItem('activeQuiz', slug);
+              }
             }}
           >
             Start Quiz

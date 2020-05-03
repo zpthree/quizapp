@@ -5,6 +5,8 @@ export const GlobalStyles = createGlobalStyle`
     --max-width: 1200px;
 
     /* font */
+    --fs-sm: 1.6rem;
+    --fs-md: 1.8rem;
     --fs-base: 2rem;
     --fs-lg: 2.4rem;
     --fs-xl: 3rem;

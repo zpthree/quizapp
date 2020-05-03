@@ -1,67 +1,19 @@
-import { gql, useQuery } from '@apollo/client';
-import { useRouter } from 'next/router';
+import React from 'react';
 import styled from 'styled-components';
-import Answer from '@components/Answer';
 import withLayout from '@components/withLayout';
-import useCorrectAnswer from '@hooks/CorrectAnswer';
+import Question from '@components/Question';
+import QuestionNavigator from '@components/QuestionNavigator';
 
-const GET_QUESTION_QUERY = gql`
-  query($id: ID!) {
-    oneQuestion(id: $id) {
-      id
-      question
-      answers {
-        id
-        answer
-        correct
-      }
-      answerCount
-      quiz {
-        id
-        title
-        user {
-          name
-          username
-        }
-      }
-    }
-  }
-`;
-
-function Question() {
-  const router = useRouter();
-  const { qid } = router.query;
-  const { loading, error, data } = useQuery(GET_QUESTION_QUERY, {
-    variables: { id: qid },
-  });
-  const isAnswer = useCorrectAnswer({ questionId: qid });
-
-  if (loading || !isAnswer) return null;
-  if (error) return `Error! ${error}`;
-
-  const question = data.oneQuestion;
-  let letter = 0;
-
+function QuestionPage() {
   return (
     <QuestionStyles>
-      <h1>{question.question}</h1>
-      <div className="answers">
-        {question.answers?.map(answer => {
-          letter += 1;
-          return (
-            <Answer
-              key={answer.id}
-              questionId={qid}
-              isAnswer={isAnswer}
-              answer={answer}
-              letter={letter}
-            />
-          );
-        })}
-      </div>
+      <QuestionNavigator />
+      <Question />
     </QuestionStyles>
   );
 }
+
+export default withLayout(QuestionPage);
 
 const QuestionStyles = styled.div`
   padding: 0 var(--gutter);
@@ -71,11 +23,19 @@ const QuestionStyles = styled.div`
   }
 
   .answers {
-    width: 100%;
     display: grid;
-    grid-template-columns: 1;
     grid-gap: 20px;
+    grid-template-columns: 1;
+    width: 100%;
+    position: relative;
+  }
+
+  .answers[aria-busy='true'],
+  .answers[aria-busy='true'] button {
+    cursor: default;
+  }
+
+  .answers[aria-busy='true'] {
+    opacity: 0.65;
   }
 `;
-
-export default withLayout(Question);

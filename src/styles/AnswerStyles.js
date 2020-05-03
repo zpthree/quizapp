@@ -13,15 +13,13 @@ const AnswerStyles = styled.button`
   padding: 2rem;
   position: relative;
 
-  &[aria-disabled='true'] {
-    cursor: not-allowed;
-  }
-
   &.answered.incorrect {
+    background-color: rgba(255, 0, 0, 0.15);
     border-color: #ff0000;
   }
 
   &.answered.correct {
+    background-color: rgba(0, 170, 0, 0.15);
     border-color: #00aa00;
   }
 

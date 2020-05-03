@@ -7,8 +7,9 @@
       {
         "root": ["."],
         "alias": {
-          "@lib": "./src/lib",
+          "@pages": "./src/pages",
           "@components": "./src/components",
+          "@lib": "./src/lib",
           "@styles": "./src/styles",
           "@hooks": "./src/hooks",
           "@icons": "./src/icons"
