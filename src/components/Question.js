@@ -31,6 +31,8 @@ const GET_QUESTION_QUERY = gql`
 `;
 
 export default function Question() {
+  // ? TODO should questions be graded right away or grade all at the end?
+  // -- the end for sure - and then give option to print or email pdf
   const isDocument = typeof document !== `undefined`;
   const router = useRouter();
   const { slug, qid } = router.query;
@@ -53,37 +55,31 @@ export default function Question() {
   const { question, answers } = data.oneQuestion;
   let i = 0;
 
-  console.log(qid);
-
   return (
     <QuestionProvider qid={qid}>
       <QuestionContext.Consumer>
-        {({ answer: { answerId } }) =>
-          console.log(answerId) || (
-            <>
-              <h1>{question}</h1>
-              <div className="answers" aria-busy={!!answerId}>
-                {answers?.map(answer => {
-                  if (i >= answers.length) i = 0;
-                  i += 1;
-                  const letter = String.fromCharCode(
-                    97 + (i - 1)
-                  ).toUpperCase();
+        {({ answer: { answerId } }) => (
+          <>
+            <h1>{question}</h1>
+            <div className="answers" aria-busy={!!answerId}>
+              {answers?.map(answer => {
+                if (i >= answers.length) i = 0;
+                i += 1;
+                const letter = String.fromCharCode(97 + (i - 1)).toUpperCase();
 
-                  return (
-                    <Answer
-                      key={answer.answer}
-                      questionId={qid}
-                      isAnswer={isAnswer}
-                      answer={answer}
-                      letter={letter}
-                    />
-                  );
-                })}
-              </div>
-            </>
-          )
-        }
+                return (
+                  <Answer
+                    key={answer.answer}
+                    questionId={qid}
+                    isAnswer={isAnswer}
+                    answer={answer}
+                    letter={letter}
+                  />
+                );
+              })}
+            </div>
+          </>
+        )}
       </QuestionContext.Consumer>
     </QuestionProvider>
   );

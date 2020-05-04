@@ -1,8 +1,22 @@
 import { createGlobalStyle } from 'styled-components';
 
+function getMaxWidth() {
+  const isDocument = typeof document !== `undefined`;
+  if (!isDocument) return null;
+
+  const html = document.querySelector('html');
+  const style = window
+    .getComputedStyle(html, null)
+    .getPropertyValue('font-size');
+  const fontSize = parseFloat(style);
+
+  if (fontSize <= 10) return `1200px`;
+  return `${fontSize * 120}px`;
+}
+
 export const GlobalStyles = createGlobalStyle`
   :root {
-    --max-width: 1200px;
+    --max-width: ${getMaxWidth()};
 
     /* font */
     --fs-sm: 1.6rem;
@@ -37,7 +51,7 @@ export const GlobalStyles = createGlobalStyle`
 
   html {
     box-sizing: border-box;
-    font-size: 10px;
+    font-size: 62.5%;
   }
 
   *,

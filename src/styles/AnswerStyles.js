@@ -12,6 +12,7 @@ const AnswerStyles = styled.button`
   cursor: pointer;
   padding: 2rem;
   position: relative;
+  /* transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out; */
 
   &.answered.incorrect {
     background-color: rgba(255, 0, 0, 0.15);

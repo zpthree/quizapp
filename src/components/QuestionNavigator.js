@@ -24,18 +24,19 @@ export default function QuestionNavigator() {
         i += 1;
 
         return (
-          <Link
-            key={id}
-            href="/quiz/[slug]/take-quiz/[qid]"
-            as={`/quiz/${slug}/take-quiz/${id}`}
-          >
-            <a
-              data-question-number={i}
-              className={`${id === qid ? 'active' : 'inactive'}`}
+          <div key={id} className="question-link">
+            <Link
+              href="/quiz/[slug]/take-quiz/[qid]"
+              as={`/quiz/${slug}/take-quiz/${id}`}
             >
-              {i}
-            </a>
-          </Link>
+              <a
+                data-question-number={i}
+                className={`${id === qid ? 'active' : 'inactive'}`}
+              >
+                {i}
+              </a>
+            </Link>
+          </div>
         );
       })}
     </QuestionNavigatorStyles>
@@ -45,6 +46,8 @@ export default function QuestionNavigator() {
 const QuestionNavigatorStyles = styled.nav`
   display: grid;
   grid-template-columns: repeat(${({ questions }) => questions}, 1fr);
+  background-color: var(--bg-alt-color);
+  padding: 2rem;
 
   .question-link {
     display: flex;
@@ -54,15 +57,16 @@ const QuestionNavigatorStyles = styled.nav`
 
   a {
     align-items: center;
-    background-color: var(--border-color);
-    border: 2px solid var(--bg-color);
+    border: 2px solid var(--fc-light);
     display: flex;
     font-size: var(--fs-sm);
     justify-content: center;
     padding: 1rem;
-    width: 100%;
+    width: 4rem;
+    height: 4rem;
 
     &.active {
+      border-color: none;
       background-color: rgba(255, 0, 0, 0.65);
     }
   }
