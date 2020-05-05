@@ -10,29 +10,39 @@ function getMaxWidth() {
     .getPropertyValue('font-size');
   const fontSize = parseFloat(style);
 
-  if (fontSize <= 10) return `1200px`;
-  return `${fontSize * 120}px`;
+  if (fontSize <= 10) return `1400px`;
+  return `${fontSize * 140}px`;
 }
 
 export const GlobalStyles = createGlobalStyle`
   :root {
     --max-width: ${getMaxWidth()};
-
+    --transition: 400ms ease-in-out;
+    --transition-none: all 0ms ease-in-out;
     /* font */
     --fs-sm: 1.6rem;
     --fs-md: 1.8rem;
     --fs-base: 2rem;
     --fs-lg: 2.4rem;
     --fs-xl: 3rem;
+    --fs-2xl: 4rem;
+    --fs-3xl: 4.8rem;
 
     /* colors */
-    --border-color: #000;
-    --fc-main: #000;
-    --fc-light: #999;
-    --fc-alt: #ff0000;
-    --bg-color: #fff;
-    --bg-alt-color: #f4f4f4;
+    --black: #000;
+    --charcoal: #141414;
     --grey: #ccc;
+    --white: #fff;
+
+    --primary-color: #00a15c;
+    --primary-color-light: #32b37c;
+    --primary-color-dark: #039053;
+    --border-color: var(--black);
+    --text-color: var(--black);
+    --text-color-light: #999;
+    --text-color-alt: var(--primary-color);
+    --bg-color: #fff;
+    --bg-color-alt: #f4f4f4;
 
     --br: 2px;
     --gutter: 2rem;
@@ -52,35 +62,34 @@ export const GlobalStyles = createGlobalStyle`
   html {
     box-sizing: border-box;
     font-size: 62.5%;
+    transition: background-color var(--transition),
+                border-color var(--transition),
+                color var(--transition);
   }
 
   *,
   *:before,
   *:after {
     box-sizing: inherit;
+    transition: inherit;
   }
 
   body {
     background: var(--bg-color);
-    color: var(--fc-main);
+    color: var(--text-color);
     font-size: var(--fs-base);
-    line-height: 1.75;
-    transition: background-color .4s ease-in-out;
+    line-height: 1.5;
+    font-family: sans-serif;
   }
 
-  main,
   .inner {
     margin: auto;
     max-width: var(--max-width);
     width: 100%;
   }
 
-  main {
-    padding-top: 2rem;
-  }
-
   a {
-    color: var(--fc-main);
+    color: var(--text-color);
     text-decoration: none;
   }
 `;

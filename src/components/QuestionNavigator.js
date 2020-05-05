@@ -20,54 +20,114 @@ export default function QuestionNavigator() {
 
   return (
     <QuestionNavigatorStyles questions={quiz.questions.length}>
-      {quiz.questions.map(({ id }) => {
-        i += 1;
+      <div className="navigator-wrapper">
+        <h3>Questions</h3>
+        <nav>
+          {quiz.questions.map(({ id, question }) => {
+            i += 1;
+            const isAnswered = localStorage.getItem(id);
 
-        return (
-          <div key={id} className="question-link">
-            <Link
-              href="/quiz/[slug]/take-quiz/[qid]"
-              as={`/quiz/${slug}/take-quiz/${id}`}
-            >
-              <a
-                data-question-number={i}
-                className={`${id === qid ? 'active' : 'inactive'}`}
-              >
-                {i}
-              </a>
-            </Link>
-          </div>
-        );
-      })}
+            return (
+              <div key={id} className="question--link">
+                <Link
+                  href="/quiz/[slug]/take-quiz/[qid]"
+                  as={`/quiz/${slug}/take-quiz/${id}`}
+                >
+                  <a
+                    data-question-number={i}
+                    className={`${id === qid ? 'active' : 'inactive'} ${
+                      isAnswered ? 'answered' : ''
+                    }`}
+                  >
+                    <p className="question--number">{i})</p>
+                    <p className="question--text">{question}</p>
+                  </a>
+                </Link>
+              </div>
+            );
+          })}
+        </nav>
+        <button className="turn-in-quiz" type="button">
+          Turn In
+        </button>
+      </div>
     </QuestionNavigatorStyles>
   );
 }
 
-const QuestionNavigatorStyles = styled.nav`
-  display: grid;
-  grid-template-columns: repeat(${({ questions }) => questions}, 1fr);
-  background-color: var(--bg-alt-color);
-  padding: 2rem;
+const QuestionNavigatorStyles = styled.div`
+  position: relative;
 
-  .question-link {
+  .navigator-wrapper {
+    background-color: var(--bg-color-alt);
+    padding: 2rem 2rem 0;
+    border-radius: var(--br);
+    max-height: calc(100vh - 25rem);
+    min-height: 65rem;
+    overflow-y: auto;
+    /* position: fixed; */
+    right: 0;
+  }
+
+  h3 {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+
+  .question--link {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding: 4rem 1rem;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--bg-color);
+    }
+
+    a:not(.answered):hover {
+      color: var(--text-color-alt);
+    }
+
+    a.answered {
+      cursor: default;
+      opacity: 0.35;
+    }
   }
 
   a {
-    align-items: center;
-    border: 2px solid var(--fc-light);
-    display: flex;
-    font-size: var(--fs-sm);
-    justify-content: center;
-    padding: 1rem;
-    width: 4rem;
-    height: 4rem;
+    display: grid;
+    font-size: var(--fs-md);
+    text-align: left;
+    grid-template-columns: 20px 1fr;
+    justify-items: start;
+    align-items: start;
+  }
 
-    &.active {
-      border-color: none;
-      background-color: rgba(255, 0, 0, 0.65);
+  p {
+    margin: 0;
+  }
+
+  .turn-in-quiz {
+    --background-color: var(--primary-color);
+    background-color: var(--background-color);
+    border-radius: var(--br);
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    font-size: var(--fs-base);
+    height: 4rem;
+    outline: none;
+    width: 100%;
+    margin-bottom: 2rem;
+    transition: var(--transition-none);
+
+    &:hover {
+      --background-color: var(--primary-color-dark);
+    }
+
+    &:focus {
+      --background-color: var(--primary-color-light);
+      transform: scale(0.98);
     }
   }
 `;

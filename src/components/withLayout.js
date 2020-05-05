@@ -1,25 +1,40 @@
 import React from 'react';
 import Header from '@components/Header';
+import Meta from '@components/Meta';
 import { GlobalStyles } from '@styles/GlobalStyles';
+import { lightMode, darkMode } from '@lib/toggleTheme';
 
-// function primaryStyles() {
-//   if (typeof document === `undefined`) return;
-//   document.documentElement.style.setProperty('--bg-color', '#1a1a1a');
-//   document.documentElement.style.setProperty('--bg-alt-color', '#343434');
-//   document.documentElement.style.setProperty('--border-color', '#000');
-//   document.documentElement.style.setProperty('--fc-main', '#fdfdfd');
-// }
+const withLayout = Component => props => {
+  const isDocument = typeof document !== `undefined`;
+  let darkModeToggled;
+  let isDarkMode;
+  if (isDocument) {
+    document.getElementById('themeToggler').addEventListener('change', e => {
+      darkModeToggled = e.target.checked;
+      if (darkModeToggled) {
+        darkMode();
+      } else {
+        lightMode();
+      }
+    });
 
-// primaryStyles();
-
-const withLayout = Component => props => (
-  <>
-    <GlobalStyles />
-    <Header />
-    <main>
-      <Component {...props} />
-    </main>
-  </>
-);
+    isDarkMode = localStorage.getItem('theme') === 'dark';
+    if (isDarkMode) {
+      darkMode();
+    } else {
+      lightMode();
+    }
+  }
+  return (
+    <>
+      <GlobalStyles />
+      <Meta />
+      <Header darkMode={isDarkMode} />
+      <main>
+        <Component {...props} />
+      </main>
+    </>
+  );
+};
 
 export default withLayout;

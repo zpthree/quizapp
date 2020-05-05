@@ -29,7 +29,7 @@ function QuizzesPage() {
   if (error) return `Error! ${error.message}`;
 
   return (
-    <QuizzesPageStyles>
+    <QuizzesPageStyles className="inner">
       {data.allQuizzes.map(quiz => (
         <QuizListing key={quiz.id} quiz={quiz} />
       ))}
@@ -41,7 +41,7 @@ const QuizzesPageStyles = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
-  padding: 0 var(--gutter);
+  padding: 4rem var(--gutter);
 `;
 
 export default withLayout(QuizzesPage);

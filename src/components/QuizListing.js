@@ -40,7 +40,7 @@ const QuizListingStyles = styled.div`
   }
 
   a:hover {
-    color: var(--fc-alt);
+    color: var(--text-color-alt);
   }
 `;
 

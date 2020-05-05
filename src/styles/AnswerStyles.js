@@ -4,7 +4,7 @@ const AnswerStyles = styled.button`
   background-color: var(--bg-color);
   border-radius: var(--br);
   border: 2px solid var(--border-color);
-  color: var(--fc-main);
+  color: var(--text-color);
   display: grid;
   font-size: var(--fs-base);
   grid-template-columns: 50px 1fr;
@@ -12,7 +12,12 @@ const AnswerStyles = styled.button`
   cursor: pointer;
   padding: 2rem;
   position: relative;
-  /* transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out; */
+  transition: var(--transition-none);
+
+  &.answered {
+    background-color: rgba(0, 124, 184, 0.125);
+    border-color: #1989bf;
+  }
 
   &.answered.incorrect {
     background-color: rgba(255, 0, 0, 0.15);
@@ -25,7 +30,7 @@ const AnswerStyles = styled.button`
   }
 
   &:hover:not([aria-disabled='true']) {
-    background-color: var(--bg-alt-color);
+    background-color: var(--bg-color-alt);
   }
 
   p {
