@@ -1,10 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import Router from 'next/router';
 import NProgress from 'nprogress';
-import toggleTheme from '@lib/toggleTheme';
+import { AppContext } from '@components/AppContext';
 
 Router.onRouteChangeStart = () => {
   NProgress.start();
@@ -18,7 +17,9 @@ Router.onRouteChangeError = () => {
   NProgress.done();
 };
 
-function Header({ isDarkMode }) {
+function Header() {
+  const { isDarkMode, setDarkMode } = useContext(AppContext);
+
   return (
     <HeaderStyles>
       <div className="inner">
@@ -34,23 +35,20 @@ function Header({ isDarkMode }) {
           <Link href="/quizzes">
             <a>Quizzes</a>
           </Link>
-          <label htmlFor="themeToggler" className="switch">
-            <input
-              id="themeToggler"
-              type="checkbox"
-              defaultChecked={`${isDarkMode}`}
-            />
-            <span className="slider round" />
-          </label>
+          <button
+            type="button"
+            id="themeToggler"
+            onClick={() => {
+              setDarkMode(prevState => !prevState);
+            }}
+          >
+            <span className="slider round" data-dark-mode={isDarkMode} />
+          </button>
         </nav>
       </div>
     </HeaderStyles>
   );
 }
-
-Header.propTypes = {
-  isDarkMode: PropTypes.bool,
-};
 
 const HeaderStyles = styled.header`
   border-bottom: 1px solid var(--primary-color);
@@ -86,19 +84,15 @@ const HeaderStyles = styled.header`
   }
 
   /* The switch - the box around the slider */
-  .switch {
+  #themeToggler {
     position: relative;
     display: inline-block;
     width: 6rem;
     height: 3rem;
     margin-left: 2rem;
-  }
-
-  /* Hide default HTML checkbox */
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+    background: inherit;
+    border: none;
+    outline: none;
   }
 
   /* The slider */
@@ -126,11 +120,11 @@ const HeaderStyles = styled.header`
     transition: 0.4s;
   }
 
-  input:checked + .slider {
+  .slider[data-dark-mode='true'] {
     background-color: var(--bg-color-alt);
   }
 
-  input:checked + .slider:before {
+  .slider[data-dark-mode='true']:before {
     background-color: var(--primary-color);
   }
 
@@ -138,7 +132,7 @@ const HeaderStyles = styled.header`
     box-shadow: 0 0 1px var(--primary-color);
   }
 
-  input:checked + .slider:before {
+  .slider[data-dark-mode='true']:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);

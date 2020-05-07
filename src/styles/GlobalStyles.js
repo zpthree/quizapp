@@ -37,7 +37,7 @@ export const GlobalStyles = createGlobalStyle`
     --primary-color: #00a15c;
     --primary-color-light: #32b37c;
     --primary-color-dark: #039053;
-    --border-color: var(--black);
+    --border-color: var(--grey);
     --text-color: var(--black);
     --text-color-light: #999;
     --text-color-alt: var(--primary-color);

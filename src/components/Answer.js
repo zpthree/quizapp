@@ -1,53 +1,38 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { gql, useMutation } from '@apollo/client';
 import AnswerStyles from '@styles/AnswerStyles';
 import { QuestionContext } from '@components/QuestionProvider';
 
-function checkAnswer({ questionId, selectedAnswer }) {
-  // if (bcrypt.compareSync(selectedAnswer, correctAnswer)) {
-  //   correct = true;
-  // }
-
-  return localStorage.setItem(
-    questionId,
-    JSON.stringify({
-      answerId: selectedAnswer,
-    })
-  );
-}
+const ANSWER_QUESTION_MUTATION = gql`
+  mutation answerQuestion($questionId: ID!, $answerId: ID!) {
+    answerQuestion(questionId: $questionId, answerId: $answerId) {
+      message
+    }
+  }
+`;
 
 export default function Answer({ answer, letter, questionId }) {
-  const isDocument = typeof document !== `undefined`;
-  const {
-    answer: { answerId },
-    setAnswer,
-  } = useContext(QuestionContext);
-
-  const thisAnswer = answer.id === answerId;
-
-  // function answerBadge() {
-  //   if (answerId && answerId === answer.id) {
-  //     if (answer.correct !== true) {
-  //       return <WrongAnswerIcon />;
-  //     }
-  //     return <CorrectAnswerIcon />;
-  //   }
-  // }
+  const [answerQuestion] = useMutation(ANSWER_QUESTION_MUTATION);
+  const { answered, refetchAnswered } = useContext(QuestionContext);
+  const [thisQuestion] = answered.filter(({ id }) => id === questionId);
+  const thisAnswer =
+    thisQuestion &&
+    answer.id &&
+    thisQuestion.answerId &&
+    answer.id === thisQuestion.answerId;
 
   return (
     <AnswerStyles
       type="button"
-      className={`${thisAnswer ? `answered` : ``}`}
-      aria-disabled={!!answerId}
-      title={answerId && `Question already answered`}
-      onClick={() => {
-        checkAnswer({
-          questionId,
-          selectedAnswer: answer.id,
+      className={`answer ${thisAnswer ? `answered` : ``}`}
+      aria-disabled={!!thisAnswer}
+      title={thisAnswer ? `Question already answered` : ``}
+      onClick={async () => {
+        await answerQuestion({
+          variables: { questionId, answerId: answer.id },
         });
-        if (isDocument) {
-          setAnswer(JSON.parse(localStorage.getItem(questionId)));
-        }
+        refetchAnswered();
       }}
     >
       <p className="answer--letter">{letter}</p>
