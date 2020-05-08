@@ -1,35 +1,38 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import withLayout from '@components/withLayout';
 import Question from '@components/Question';
 import QuestionNavigator from '@components/QuestionNavigator';
-import QuestionProvider, {
-  QuestionContext,
-} from '@components/QuestionProvider';
+import { AppContext } from '@components/AppContext';
 
 function QuestionPage() {
+  const isDocument = typeof document !== `undefined`;
   const router = useRouter();
   const { slug, qid } = router.query;
+  const { activeQuizTitle } = useContext(AppContext);
+
+  useEffect(() => {
+    if (isDocument) {
+      setTimeout(() => {
+        const el = document.getElementById(qid);
+        el.scrollIntoView();
+      }, 0);
+    }
+  }, [isDocument, qid]);
 
   return (
-    <QuestionProvider qid={qid}>
-      <QuestionPageWrapper>
-        <QuestionContext.Consumer>
-          {data => (
-            <div className="quiz-title">
-              <div className="inner">
-                <h1>{data.quizTitle}</h1>
-              </div>
-            </div>
-          )}
-        </QuestionContext.Consumer>
-        <div className="wrapper inner">
-          <Question slug={slug} qid={qid} />
-          <QuestionNavigator />
+    <QuestionPageWrapper>
+      <div className="quiz-title">
+        <div className="inner">
+          <h1>{activeQuizTitle || 'Loading...'}</h1>
         </div>
-      </QuestionPageWrapper>
-    </QuestionProvider>
+      </div>
+      <div className="wrapper inner">
+        <Question slug={slug} qid={qid} />
+        <QuestionNavigator />
+      </div>
+    </QuestionPageWrapper>
   );
 }
 

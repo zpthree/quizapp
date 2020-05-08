@@ -1,6 +1,6 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
-import AnswerStyles from '@styles/AnswerStyles';
+import styled from 'styled-components';
+import AnswerStyles, { loading } from '@styles/AnswerStyles';
 
 export default function QuestionPlaceholder() {
   return (
@@ -11,25 +11,20 @@ export default function QuestionPlaceholder() {
         <AnswerStyles className="answer loading" />
         <AnswerStyles className="answer loading" />
         <AnswerStyles className="answer loading" />
+        <div className="question-nav-links">
+          <p className="go-back loading" />
+          <p className="next-question loading" />
+        </div>
       </div>
     </QuestionPlaceholderStyles>
   );
 }
 
-const loading = keyframes`
-    0%{
-        background-position: -468px 0
-    }
-    100%{
-        background-position: 468px 0
-    }
-`;
-
 const QuestionPlaceholderStyles = styled.div`
   max-height: calc(100vh - 25rem);
 
   .title-placeholder {
-    height: 6rem;
+    height: 7.5rem;
     margin-bottom: 2rem;
     width: 50%;
   }
@@ -59,7 +54,29 @@ const QuestionPlaceholderStyles = styled.div`
       var(--bg-color-alt) 75%
     );
     background-size: 1000px 104px;
+    border-radius: var(--br);
     position: relative;
     overflow: hidden;
+    cursor: progress;
+  }
+
+  .question-nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .go-back {
+    height: 6rem;
+    overflow: hidden;
+    padding: 0.75rem 1.5rem;
+    width: 15rem;
+  }
+
+  .next-question {
+    height: 6rem;
+    overflow: hidden;
+    padding: 0.75rem 1.5rem;
+    width: 30rem;
   }
 `;

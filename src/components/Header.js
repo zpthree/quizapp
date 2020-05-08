@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import Router from 'next/router';
 import NProgress from 'nprogress';
-import { AppContext } from '@components/AppContext';
+import ToggleTheme from '@components/ToggleTheme';
 
 Router.onRouteChangeStart = () => {
   NProgress.start();
@@ -18,8 +18,6 @@ Router.onRouteChangeError = () => {
 };
 
 function Header() {
-  const { isDarkMode, setDarkMode } = useContext(AppContext);
-
   return (
     <HeaderStyles>
       <div className="inner">
@@ -35,15 +33,7 @@ function Header() {
           <Link href="/quizzes">
             <a>Quizzes</a>
           </Link>
-          <button
-            type="button"
-            id="themeToggler"
-            onClick={() => {
-              setDarkMode(prevState => !prevState);
-            }}
-          >
-            <span className="slider round" data-dark-mode={isDarkMode} />
-          </button>
+          <ToggleTheme />
         </nav>
       </div>
     </HeaderStyles>
@@ -81,70 +71,6 @@ const HeaderStyles = styled.header`
       background: var(--primary-color-dark);
       color: var(--white);
     }
-  }
-
-  /* The switch - the box around the slider */
-  #themeToggler {
-    position: relative;
-    display: inline-block;
-    width: 6rem;
-    height: 3rem;
-    margin-left: 2rem;
-    background: inherit;
-    border: none;
-    outline: none;
-  }
-
-  /* The slider */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: '';
-    height: 22px;
-    width: 22px;
-    left: 4px;
-    bottom: 4px;
-    background-color: var(--white);
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-  }
-
-  .slider[data-dark-mode='true'] {
-    background-color: var(--bg-color-alt);
-  }
-
-  .slider[data-dark-mode='true']:before {
-    background-color: var(--primary-color);
-  }
-
-  input:focus + .slider {
-    box-shadow: 0 0 1px var(--primary-color);
-  }
-
-  .slider[data-dark-mode='true']:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 28px;
-  }
-
-  .slider.round:before {
-    border-radius: 50%;
   }
 `;
 

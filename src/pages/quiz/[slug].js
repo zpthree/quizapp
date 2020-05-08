@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import withLayout from '@components/withLayout';
 import Error from '@components/ErrorMessage';
+import { AppContext } from '@components/AppContext';
 
 export const GET_QUIZ_QUERY = gql`
   query GET_QUIZ_QUERY($slug: String!) {
@@ -40,6 +41,7 @@ const TAKE_QUIZ_MUTATION = gql`
 function Quiz() {
   const router = useRouter();
   const { slug } = router.query;
+  const { activeQuiz, refetchAppData } = useContext(AppContext);
   const { loading, error, data } = useQuery(GET_QUIZ_QUERY, {
     variables: { slug },
   });
@@ -51,29 +53,7 @@ function Quiz() {
   if (error) return <Error error={error} />;
 
   const quiz = data.oneQuiz;
-  const activeQuiz = localStorage.getItem('activeQuiz');
   const isActiveQuiz = activeQuiz && activeQuiz === slug;
-
-  // function takeQuiz() {
-  //   if (activeQuiz && !isActiveQuiz) {
-  //     const isConfirmed = window.confirm(
-  //       'There is already a quiz in progress. Are you sure you want to proceed'
-  //     );
-  //     if (!isConfirmed) {
-  //       return router.push('/quiz/[slug]', `/quiz/${activeQuiz}`);
-  //     }
-
-  //     resetQuiz();
-  //   }
-
-  //   router.push(
-  //     '/quiz/[slug]/take-quiz/[qid]',
-  //     `/quiz/${slug}/take-quiz/${quiz.questions[0].id}`
-  //   );
-  //   if (isDocument) {
-  //     localStorage.setItem('activeQuiz', slug);
-  //   }
-  // }
 
   function renderTakeQuizBtn() {
     if (!isActiveQuiz && quiz.questions?.length) {
@@ -83,14 +63,25 @@ function Quiz() {
           <button
             type="button"
             onClick={async () => {
-              const res = await takeQuiz({ variables: { id: quiz.id } });
-              if (res.errors) {
-                alert(res.errors[0].message);
-              }
-              if (quiz.id !== res.data.takeQuiz.id) {
-                const isConfirmed = window.confirm(
-                  'There is already a quiz in progress. Are you sure you want to proceed'
+              if (activeQuiz && activeQuiz === slug) {
+                return router.push(
+                  '/quiz/[slug]/take-quiz/[qid]',
+                  `/quiz/${slug}/take-quiz/${quiz.id}`
                 );
+              }
+
+              if (activeQuiz && activeQuiz !== slug) {
+                const isConfirmed = window.confirm(
+                  'Another quiz is already in progress. Are you sure you want to proceed?'
+                );
+
+                const res = await takeQuiz({ variables: { id: quiz.id } });
+
+                if (res.errors) {
+                  return alert(res.errors[0].message);
+                }
+
+                await refetchAppData();
 
                 if (!isConfirmed) {
                   return router.push(
@@ -98,11 +89,24 @@ function Quiz() {
                     `/quiz/${res.data.takeQuiz.slug}`
                   );
                 }
-                router.push(
+                return router.push(
                   '/quiz/[slug]/take-quiz/[qid]',
                   `/quiz/${slug}/take-quiz/${quiz.questions[0].id}`
                 );
               }
+
+              const resTwo = await takeQuiz({ variables: { id: quiz.id } });
+
+              if (resTwo.errors) {
+                return alert(resTwo.errors[0].message);
+              }
+
+              await refetchAppData();
+
+              router.push(
+                '/quiz/[slug]/take-quiz/[qid]',
+                `/quiz/${slug}/take-quiz/${quiz.questions[0].id}`
+              );
             }}
           >
             Start Quiz

@@ -1,13 +1,14 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { gql, useQuery } from '@apollo/client';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { gql, useQuery } from '@apollo/client';
 import { useCookies } from 'react-cookie';
 import useCorrectAnswer from '@hooks/CorrectAnswer';
 import QuestionStyles from '@styles/QuestionStyles';
 import Answer from '@components/Answer';
-import { QuestionContext } from '@components/QuestionProvider';
 import QuestionPlaceholder from '@components/QuestionPlaceholder';
+import { AppContext } from '@components/AppContext';
 
 const GET_QUESTION_QUERY = gql`
   query GET_QUESTION_QUERY($id: ID!) {
@@ -29,34 +30,33 @@ const GET_QUESTION_QUERY = gql`
         }
       }
     }
-    answeredQuestions {
-      id
-      question
-    }
   }
 `;
 
 export default function Question({ slug, qid }) {
-  const isDocument = typeof document !== `undefined`;
   const router = useRouter();
+  const { activeQuiz, answeredQuestions, remainingQuestions } = useContext(
+    AppContext
+  );
   const { loading, error, data } = useQuery(GET_QUESTION_QUERY, {
     variables: { id: qid },
   });
 
+  const [isAnswered] = answeredQuestions.filter(
+    ({ id: questionId }) => questionId === qid
+  );
+
   const isAnswer = useCorrectAnswer({ questionId: qid });
 
-  if (isDocument) {
-    const activeQuiz = localStorage.getItem('activeQuiz');
-    if (!activeQuiz || (activeQuiz && activeQuiz !== slug)) {
-      router.push('/quiz/[slug]', `/quiz/${slug}`);
-      return null;
+  if (!activeQuiz || (activeQuiz && activeQuiz !== slug)) {
+    if (typeof document !== `undefined`) {
+      window.location.href = `/quiz/${slug}`;
     }
+    return null;
   }
 
   if (loading || !isAnswer) return <QuestionPlaceholder />;
   if (error) return `Error! ${error}`;
-
-  console.log(data);
 
   const { answers, question, id } = data.oneQuestion;
 
@@ -80,6 +80,25 @@ export default function Question({ slug, qid }) {
             />
           );
         })}
+        <div className="question-nav-links">
+          <button type="button" className="go-back" onClick={router.back}>
+            Go Back
+          </button>
+          {remainingQuestions.length && isAnswered ? (
+            <Link
+              href="/quiz/[slug]/take-quiz/[qid]"
+              as={`/quiz/${slug}/take-quiz/${remainingQuestions[0].id}`}
+            >
+              <a className="next-question" data-answered="true">
+                Next Unanswered Question
+              </a>
+            </Link>
+          ) : (
+            <p className="next-question" data-answered="false">
+              Next Unanswered Question
+            </p>
+          )}
+        </div>
       </div>
     </QuestionStyles>
   );

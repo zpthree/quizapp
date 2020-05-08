@@ -1,9 +1,44 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { GET_QUIZ_QUERY } from '@pages/quiz/[slug]';
+import { AppContext } from '@components/AppContext';
+
+function NavigatorAnswer({ slug, qid, question, currentQid }) {
+  const { answeredQuestions } = useContext(AppContext);
+  const answered = answeredQuestions.filter(
+    ({ id: questionId }) => questionId === qid
+  );
+
+  const thisQuestion = qid === currentQid;
+
+  return (
+    <div
+      key={qid}
+      id={qid}
+      className={`question--link ${thisQuestion ? `active` : ``}`}
+    >
+      <Link
+        href="/quiz/[slug]/take-quiz/[qid]"
+        as={`/quiz/${slug}/take-quiz/${qid}`}
+      >
+        <a className={`${answered.length ? 'answered' : ''}`}>
+          <p className="question--text">{question}</p>
+        </a>
+      </Link>
+    </div>
+  );
+}
+
+NavigatorAnswer.propTypes = {
+  slug: PropTypes.string.isRequired,
+  qid: PropTypes.string.isRequired,
+  question: PropTypes.string.isRequired,
+  currentQid: PropTypes.string.isRequired,
+};
 
 export default function QuestionNavigator() {
   const router = useRouter();
@@ -16,40 +51,25 @@ export default function QuestionNavigator() {
   if (error) return `Error! ${error}`;
 
   const quiz = data.oneQuiz;
-  let i = 0;
 
   return (
     <QuestionNavigatorStyles questions={quiz.questions.length}>
       <div className="navigator-wrapper">
         <h3>Questions</h3>
         <nav>
-          {quiz.questions.map(({ id, question }) => {
-            i += 1;
-            const isAnswered = localStorage.getItem(id);
-
-            return (
-              <div key={id} className="question--link">
-                <Link
-                  href="/quiz/[slug]/take-quiz/[qid]"
-                  as={`/quiz/${slug}/take-quiz/${id}`}
-                >
-                  <a
-                    data-question-number={i}
-                    className={`${id === qid ? 'active' : 'inactive'} ${
-                      isAnswered ? 'answered' : ''
-                    }`}
-                  >
-                    <p className="question--number">{i})</p>
-                    <p className="question--text">{question}</p>
-                  </a>
-                </Link>
-              </div>
-            );
-          })}
+          {quiz.questions.map(({ id, question }) => (
+            <NavigatorAnswer
+              key={id}
+              slug={slug}
+              currentQid={qid}
+              qid={id}
+              question={question}
+            />
+          ))}
         </nav>
-        <button className="turn-in-quiz" type="button">
-          Turn In
-        </button>
+        <div className="turn-in-quiz">
+          <button type="button">Turn In</button>
+        </div>
       </div>
     </QuestionNavigatorStyles>
   );
@@ -60,27 +80,42 @@ const QuestionNavigatorStyles = styled.div`
 
   .navigator-wrapper {
     background-color: var(--bg-color-alt);
-    padding: 2rem 2rem 0;
+    padding: 0;
     border-radius: var(--br);
-    max-height: calc(100vh - 25rem);
-    min-height: 65rem;
-    overflow-y: auto;
-    /* position: fixed; */
     right: 0;
   }
 
+  nav {
+    max-height: calc(100vh - 42rem);
+    /* min-height: 50rem; */
+    overflow-y: auto;
+  }
+
+  h3,
+  button {
+    height: 8rem;
+  }
+
   h3 {
-    padding: 0;
+    padding: 2rem 4rem;
     margin: 0;
     text-align: center;
+    border-bottom: 3px solid var(--bg-color);
   }
 
   .question--link {
     display: flex;
     align-items: flex-start;
-    padding: 4rem 1rem;
+    padding: 0 2rem;
 
-    &:not(:last-child) {
+    a {
+      display: block;
+      padding: 2.5rem 2rem;
+      transition: var(--transition-none);
+      width: 100%;
+    }
+
+    &:not(:last-child) a {
       border-bottom: 1px solid var(--bg-color);
     }
 
@@ -88,9 +123,14 @@ const QuestionNavigatorStyles = styled.div`
       color: var(--text-color-alt);
     }
 
-    a.answered {
-      cursor: default;
+    &:not(.active) a.answered p {
       opacity: 0.35;
+    }
+
+    &.active a {
+      color: var(--text-color-alt);
+      font-weight: 700;
+      opacity: 1;
     }
   }
 
@@ -98,7 +138,7 @@ const QuestionNavigatorStyles = styled.div`
     display: grid;
     font-size: var(--fs-md);
     text-align: left;
-    grid-template-columns: 20px 1fr;
+    grid-template-columns: 1fr;
     justify-items: start;
     align-items: start;
   }
@@ -108,6 +148,11 @@ const QuestionNavigatorStyles = styled.div`
   }
 
   .turn-in-quiz {
+    padding: 2rem 4rem;
+    border-top: 3px solid var(--bg-color);
+  }
+
+  .turn-in-quiz button {
     --background-color: var(--primary-color);
     background-color: var(--background-color);
     border-radius: var(--br);
@@ -118,7 +163,6 @@ const QuestionNavigatorStyles = styled.div`
     height: 4rem;
     outline: none;
     width: 100%;
-    margin-bottom: 2rem;
     transition: var(--transition-none);
 
     &:hover {

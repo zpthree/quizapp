@@ -37,6 +37,7 @@ const QuizListingStyles = styled.div`
 
   h2 {
     font-size: var(--fs-lg);
+    transition: var(--transition-none);
   }
 
   a:hover {

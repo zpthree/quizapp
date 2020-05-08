@@ -6,12 +6,12 @@ import AppProvider, { AppContext } from '@components/AppContext';
 
 const withLayout = Component => props => {
   function Layout() {
-    const { isDarkMode } = useContext(AppContext);
+    const { theme } = useContext(AppContext);
     return (
       <>
-        <GlobalStyles />
+        <GlobalStyles theme={theme} />
         <Meta />
-        <Header isDarkMode={isDarkMode} />
+        <Header />
         <main>
           <Component {...props} />
         </main>

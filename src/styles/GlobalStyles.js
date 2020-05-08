@@ -2,23 +2,37 @@ import { createGlobalStyle } from 'styled-components';
 
 function getMaxWidth() {
   const isDocument = typeof document !== `undefined`;
-  if (!isDocument) return null;
 
-  const html = document.querySelector('html');
-  const style = window
-    .getComputedStyle(html, null)
-    .getPropertyValue('font-size');
-  const fontSize = parseFloat(style);
+  if (isDocument) {
+    const html = document.querySelector('html');
+    const style = window
+      .getComputedStyle(html, null)
+      .getPropertyValue('font-size');
+    const fontSize = parseFloat(style);
 
-  if (fontSize <= 10) return `1400px`;
-  return `${fontSize * 140}px`;
+    if (fontSize <= 10) return `1500px`;
+    return `${fontSize * 150}px`;
+  }
 }
 
 export const GlobalStyles = createGlobalStyle`
   :root {
+    /* theme variables */
+    --bg-color: ${({ theme }) =>
+      theme === 'dark' ? 'var(--black)' : 'var(--white)'};
+    --bg-color-alt: ${({ theme }) =>
+      theme === 'dark' ? 'var(--charcoal)' : 'var(--lightgrey)'};
+    --border-color: ${({ theme }) =>
+      theme === 'dark' ? 'var(--charcoal)' : 'var(--grey)'};
+    --text-color: ${({ theme }) =>
+      theme === 'dark' ? 'var(--white)' : 'var(--black)'};
+    --nprogress-bar: ${({ theme }) =>
+      theme === 'dark' ? 'var(--white)' : 'var(--primary-color)'};
+
     --max-width: ${getMaxWidth()};
     --transition: 400ms ease-in-out;
     --transition-none: all 0ms ease-in-out;
+
     /* font */
     --fs-sm: 1.6rem;
     --fs-md: 1.8rem;
@@ -32,17 +46,15 @@ export const GlobalStyles = createGlobalStyle`
     --black: #000;
     --charcoal: #141414;
     --grey: #ccc;
+    --lightgrey: #f4f4f4;
     --white: #fff;
+    --offwhite: #fdfdfd;
 
     --primary-color: #00a15c;
     --primary-color-light: #32b37c;
     --primary-color-dark: #039053;
-    --border-color: var(--grey);
-    --text-color: var(--black);
     --text-color-light: #999;
     --text-color-alt: var(--primary-color);
-    --bg-color: #fff;
-    --bg-color-alt: #f4f4f4;
 
     --br: 2px;
     --gutter: 2rem;

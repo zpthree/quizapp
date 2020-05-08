@@ -1,30 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { lightMode, darkMode } from '@lib/toggleTheme';
+import { gql, useQuery } from '@apollo/client';
+
+const APP_DATA_QUERY = gql`
+  query APP_DATA_QUERY {
+    appData {
+      activeUser {
+        id
+      }
+      theme
+      activeQuiz
+      activeQuizTitle
+      answeredQuestions {
+        id
+        answerId
+      }
+      remainingQuestions {
+        id
+      }
+    }
+  }
+`;
 
 export const AppContext = React.createContext({});
 
 export default function AppProvider({ children }) {
-  const isDocument = typeof document !== `undefined`;
-  const [isDarkMode, setDarkMode] = useState(
-    isDocument && localStorage.getItem('theme') === 'dark'
-  );
+  const { error, data, refetch } = useQuery(APP_DATA_QUERY);
 
-  useEffect(() => {
-    if (isDocument) {
-      if (isDarkMode) {
-        darkMode();
-      } else {
-        lightMode();
-      }
-    }
-  }, [isDarkMode, isDocument]);
+  if (error) return `Error! ${error}`;
 
-  return (
-    <AppContext.Provider value={{ isDarkMode, setDarkMode }}>
-      {children}
-    </AppContext.Provider>
-  );
+  if (data)
+    return (
+      <AppContext.Provider
+        value={{
+          theme: data.appData.theme,
+          activeQuiz: data.appData.activeQuiz,
+          activeQuizTitle: data.appData.activeQuizTitle,
+          answeredQuestions: data.appData.answeredQuestions || [],
+          remainingQuestions: data.appData.remainingQuestions || [],
+          refetchAppData: refetch,
+        }}
+      >
+        {children}
+      </AppContext.Provider>
+    );
+
+  return null;
 }
 
 AppProvider.propTypes = {

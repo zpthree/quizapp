@@ -1,4 +1,13 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+export const loading = keyframes`
+    0%{
+        background-position: -468px 0
+    }
+    100%{
+        background-position: 468px 0
+    }
+`;
 
 const AnswerStyles = styled.button`
   background-color: var(--bg-color);
@@ -12,7 +21,24 @@ const AnswerStyles = styled.button`
   cursor: pointer;
   padding: 2rem;
   position: relative;
-  /* transition: var(--transition-none); */
+
+  &.loading {
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: ${loading};
+    animation-timing-function: linear;
+    background: linear-gradient(
+      to right,
+      var(--bg-color-alt) 25%,
+      var(--bg-color) 50%,
+      var(--bg-color-alt) 75%
+    );
+    background-size: 1000px 104px;
+    position: relative;
+    overflow: hidden;
+    cursor: progress;
+  }
 
   &.answered {
     background-color: rgba(0, 124, 184, 0.125);
@@ -46,17 +72,6 @@ const AnswerStyles = styled.button`
     &:not(.answer--letter) {
       text-align: left;
     }
-  }
-
-  .badge {
-    align-items: center;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    right: 1rem;
-    top: 0;
-    z-index: 50;
   }
 `;
 
