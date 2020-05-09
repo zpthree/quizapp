@@ -10,6 +10,7 @@ const APP_DATA_QUERY = gql`
       }
       theme
       activeQuiz
+      finalized
       activeQuizTitle
       answeredQuestions {
         id
@@ -34,6 +35,8 @@ export default function AppProvider({ children }) {
       <AppContext.Provider
         value={{
           theme: data.appData.theme,
+          primaryColor: '#00a15c',
+          finalized: data.appData.finalized,
           activeQuiz: data.appData.activeQuiz,
           activeQuizTitle: data.appData.activeQuizTitle,
           answeredQuestions: data.appData.answeredQuestions || [],

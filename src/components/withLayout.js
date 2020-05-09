@@ -6,10 +6,10 @@ import AppProvider, { AppContext } from '@components/AppContext';
 
 const withLayout = Component => props => {
   function Layout() {
-    const { theme } = useContext(AppContext);
+    const { theme, primaryColor } = useContext(AppContext);
     return (
       <>
-        <GlobalStyles theme={theme} />
+        <GlobalStyles theme={theme} primaryColor={primaryColor} />
         <Meta />
         <Header />
         <main>

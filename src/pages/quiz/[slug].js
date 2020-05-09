@@ -41,7 +41,7 @@ const TAKE_QUIZ_MUTATION = gql`
 function Quiz() {
   const router = useRouter();
   const { slug } = router.query;
-  const { activeQuiz, refetchAppData } = useContext(AppContext);
+  const { finalized, activeQuiz, refetchAppData } = useContext(AppContext);
   const { loading, error, data } = useQuery(GET_QUIZ_QUERY, {
     variables: { slug },
   });
@@ -56,11 +56,22 @@ function Quiz() {
   const isActiveQuiz = activeQuiz && activeQuiz === slug;
 
   function renderTakeQuizBtn() {
+    const thisQuizIsFinalized = finalized && finalized === slug;
+
+    if (thisQuizIsFinalized) {
+      return (
+        <Link href="/quiz/[slug]/results" as={`/quiz/${slug}/results`}>
+          <a id="turn-in-quiz">See Results</a>
+        </Link>
+      );
+    }
+
     if (!isActiveQuiz && quiz.questions?.length) {
       return (
         <>
           <p>{quiz.questions.length} questions</p>
           <button
+            id="start-quiz"
             type="button"
             onClick={async () => {
               if (activeQuiz && activeQuiz === slug) {
@@ -121,7 +132,7 @@ function Quiz() {
           href="/quiz/[slug]/take-quiz/[qid]"
           as={`/quiz/${slug}/take-quiz/${quiz.questions[0].id}`}
         >
-          <a>Resume Quiz</a>
+          <a id="resume-quiz">Resume Quiz</a>
         </Link>
       );
     }
@@ -132,7 +143,7 @@ function Quiz() {
   }
 
   return (
-    <QuizStyles className="inner">
+    <QuizStyles>
       <h1>{quiz.title}</h1>
       {quiz.description && <p>{quiz.description}</p>}
       {renderTakeQuizBtn()}
@@ -142,6 +153,29 @@ function Quiz() {
 
 const QuizStyles = styled.div`
   padding: 4rem var(--gutter);
+  width: 100%;
+  max-width: var(--small-page-width);
+  margin: auto;
+
+  #turn-in-quiz,
+  #resume-quiz,
+  #start-quiz {
+    --background-color: var(--primary-color);
+    background-color: var(--background-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--br);
+    margin-top: 1rem;
+    display: inline-block;
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-size: var(--fs-base);
+    cursor: pointer;
+
+    &:hover {
+      --background-color: var(--primary-color-dark);
+    }
+  }
 `;
 
 export default withLayout(Quiz);

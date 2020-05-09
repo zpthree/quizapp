@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { lighten, darken } from 'polished';
 
 function getMaxWidth() {
   const isDocument = typeof document !== `undefined`;
@@ -27,13 +28,23 @@ export const GlobalStyles = createGlobalStyle`
     --text-color: ${({ theme }) =>
       theme === 'dark' ? 'var(--white)' : 'var(--black)'};
     --nprogress-bar: ${({ theme }) =>
+      theme === 'dark' ? 'var(--white)' : 'var(--white)'};
+    --results-page-box-shadow: ${({ theme }) =>
+      theme === 'dark'
+        ? '0 .1rem .4rem .2rem rgba(150, 150, 150, .2)'
+        : '0 .4rem .4rem .2rem rgba(0, 0, 0, .1)'};
+    --logo-bg-color: ${({ theme }) =>
+      theme === 'dark' ? 'var(--black)' : 'var(--white)'};
+    --logo-text-color: ${({ theme }) =>
       theme === 'dark' ? 'var(--white)' : 'var(--primary-color)'};
 
     --max-width: ${getMaxWidth()};
+    --small-page-width: 85rem;
     --transition: 400ms ease-in-out;
     --transition-none: all 0ms ease-in-out;
 
     /* font */
+    --fs-root: 10px;
     --fs-sm: 1.6rem;
     --fs-md: 1.8rem;
     --fs-base: 2rem;
@@ -50,9 +61,12 @@ export const GlobalStyles = createGlobalStyle`
     --white: #fff;
     --offwhite: #fdfdfd;
 
-    --primary-color: #00a15c;
-    --primary-color-light: #32b37c;
-    --primary-color-dark: #039053;
+    --primary-color: ${({ primaryColor }) => primaryColor};
+    --primary-color-light: ${({ primaryColor }) =>
+      lighten(0.075, `${primaryColor}`)};
+    --primary-color-dark: ${({ primaryColor }) =>
+      darken(0.075, `${primaryColor}`)};
+
     --text-color-light: #999;
     --text-color-alt: var(--primary-color);
 
@@ -61,6 +75,17 @@ export const GlobalStyles = createGlobalStyle`
 
     @media screen and (min-width: 990px) {
       --gutter: 4rem;
+    }
+    @media screen and (min-width: 1920px) {
+      --max-width: 72%;
+      --fs-root: .5vw;
+    }
+    @media print {
+      --bg-color: var(--white);
+      --bg-color-alt: var(--lightgrey);
+      --border-color: var(--grey);
+      --text-color: var(--black);
+      --nprogress-bar: var(--primary-color);
     }
   }
 
@@ -73,10 +98,9 @@ export const GlobalStyles = createGlobalStyle`
 
   html {
     box-sizing: border-box;
-    font-size: 62.5%;
+    font-size: var(--fs-root);
     transition: background-color var(--transition),
-                border-color var(--transition),
-                color var(--transition);
+                border-color var(--transition);
   }
 
   *,
@@ -92,6 +116,17 @@ export const GlobalStyles = createGlobalStyle`
     font-size: var(--fs-base);
     line-height: 1.5;
     font-family: sans-serif;
+    color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  @media print {
+    @page {
+      padding: 0;
+      margin: 3rem;
+      border: none;
+      border-collapse: collapse;
+    }
   }
 
   .inner {

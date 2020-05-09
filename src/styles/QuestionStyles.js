@@ -1,15 +1,13 @@
 import styled from 'styled-components';
 
 const QuestionStyles = styled.div`
-  max-height: calc(100vh - 25rem);
-
   h2 {
     font-size: var(--fs-xl);
   }
 
   .answers {
     display: grid;
-    grid-gap: 20px;
+    grid-gap: 2rem;
     grid-template-columns: 1;
     width: 100%;
     position: relative;
@@ -21,10 +19,17 @@ const QuestionStyles = styled.div`
     justify-content: space-between;
   }
 
+  .get-results,
   .go-back,
   .next-question {
     margin-top: 1rem;
     padding: 0.75rem 1.5rem;
+  }
+
+  .get-results {
+    outline: none;
+    border: none;
+    font-size: var(--fs-base);
   }
 
   .go-back {
@@ -38,10 +43,12 @@ const QuestionStyles = styled.div`
     transition: var(--transition-none);
 
     &:hover {
-      --background-color: var(--offwhite);
+      --background-color: var(--text-color);
+      color: var(--bg-color);
     }
   }
 
+  .get-results,
   .next-question {
     background-color: var(--primary-color);
     border-radius: var(--br);

@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { gql, useQuery } from '@apollo/client';
-import { useCookies } from 'react-cookie';
 import useCorrectAnswer from '@hooks/CorrectAnswer';
 import QuestionStyles from '@styles/QuestionStyles';
 import Answer from '@components/Answer';
 import QuestionPlaceholder from '@components/QuestionPlaceholder';
+import FinalizeQuizBtn from '@components/FinalizeQuizBtn';
 import { AppContext } from '@components/AppContext';
+import formatPercent from '@lib/formatPercent';
 
 const GET_QUESTION_QUERY = gql`
   query GET_QUESTION_QUERY($id: ID!) {
@@ -42,6 +43,10 @@ export default function Question({ slug, qid }) {
     variables: { id: qid },
   });
 
+  const totalQuestions = answeredQuestions.length + remainingQuestions.length;
+
+  const progress = answeredQuestions.length / totalQuestions;
+
   const [isAnswered] = answeredQuestions.filter(
     ({ id: questionId }) => questionId === qid
   );
@@ -50,7 +55,7 @@ export default function Question({ slug, qid }) {
 
   if (!activeQuiz || (activeQuiz && activeQuiz !== slug)) {
     if (typeof document !== `undefined`) {
-      window.location.href = `/quiz/${slug}`;
+      router.push(`/quiz/${slug}`);
     }
     return null;
   }
@@ -93,11 +98,15 @@ export default function Question({ slug, qid }) {
                 Next Unanswered Question
               </a>
             </Link>
-          ) : (
+          ) : null}
+          {remainingQuestions.length && !isAnswered ? (
             <p className="next-question" data-answered="false">
               Next Unanswered Question
             </p>
-          )}
+          ) : null}
+          {remainingQuestions.length === 0 ? (
+            <FinalizeQuizBtn slug={slug} />
+          ) : null}
         </div>
       </div>
     </QuestionStyles>

@@ -21,8 +21,6 @@ export default function QuestionPlaceholder() {
 }
 
 const QuestionPlaceholderStyles = styled.div`
-  max-height: calc(100vh - 25rem);
-
   .title-placeholder {
     height: 7.5rem;
     margin-bottom: 2rem;
@@ -31,7 +29,7 @@ const QuestionPlaceholderStyles = styled.div`
 
   .answers {
     display: grid;
-    grid-gap: 20px;
+    grid-gap: 2rem;
     grid-template-columns: 1;
     width: 100%;
     position: relative;
@@ -53,7 +51,7 @@ const QuestionPlaceholderStyles = styled.div`
       var(--bg-color) 50%,
       var(--bg-color-alt) 75%
     );
-    background-size: 1000px 104px;
+    background-size: 100rem 10.4rem;
     border-radius: var(--br);
     position: relative;
     overflow: hidden;

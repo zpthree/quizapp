@@ -10,16 +10,29 @@ function QuestionPage() {
   const isDocument = typeof document !== `undefined`;
   const router = useRouter();
   const { slug, qid } = router.query;
-  const { activeQuizTitle } = useContext(AppContext);
+  const { finalized, activeQuizTitle } = useContext(AppContext);
 
   useEffect(() => {
     if (isDocument) {
       setTimeout(() => {
-        const el = document.getElementById(qid);
-        el.scrollIntoView();
+        // set the scroll position of the side bar navigation
+        const overflow = document.querySelector('.navigator-wrapper nav');
+        const anchor = document.getElementById(qid);
+
+        // Get the bounding client rectangles for both
+        // the overflow container and the target anchor
+        const rectOverflow = overflow.getBoundingClientRect();
+        const rectAnchor = anchor.getBoundingClientRect();
+
+        // Set the scroll position of the overflow container
+        overflow.scrollTop = rectAnchor.top - rectOverflow.top;
       }, 0);
     }
   }, [isDocument, qid]);
+
+  if (isDocument && finalized) {
+    return router.push(`/quiz/${slug}/results`);
+  }
 
   return (
     <QuestionPageWrapper>

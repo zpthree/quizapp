@@ -31,7 +31,7 @@ QuizListing.propTypes = {
 };
 
 const QuizListingStyles = styled.div`
-  border: 2px solid var(--border-color);
+  border: 0.2rem solid var(--border-color);
   border-radius: var(--br);
   padding: 1rem;
 

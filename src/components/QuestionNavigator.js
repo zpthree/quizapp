@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { GET_QUIZ_QUERY } from '@pages/quiz/[slug]';
 import { AppContext } from '@components/AppContext';
 
-function NavigatorAnswer({ slug, qid, question, currentQid }) {
+function NavigatorAnswer({ questionNumber, slug, qid, question, currentQid }) {
   const { answeredQuestions } = useContext(AppContext);
   const answered = answeredQuestions.filter(
     ({ id: questionId }) => questionId === qid
@@ -26,6 +26,7 @@ function NavigatorAnswer({ slug, qid, question, currentQid }) {
         as={`/quiz/${slug}/take-quiz/${qid}`}
       >
         <a className={`${answered.length ? 'answered' : ''}`}>
+          <p className="question--number">{`${questionNumber})`}</p>
           <p className="question--text">{question}</p>
         </a>
       </Link>
@@ -34,6 +35,7 @@ function NavigatorAnswer({ slug, qid, question, currentQid }) {
 }
 
 NavigatorAnswer.propTypes = {
+  questionNumber: PropTypes.number.isRequired,
   slug: PropTypes.string.isRequired,
   qid: PropTypes.string.isRequired,
   question: PropTypes.string.isRequired,
@@ -51,25 +53,28 @@ export default function QuestionNavigator() {
   if (error) return `Error! ${error}`;
 
   const quiz = data.oneQuiz;
+  let i = 0;
 
   return (
     <QuestionNavigatorStyles questions={quiz.questions.length}>
       <div className="navigator-wrapper">
         <h3>Questions</h3>
         <nav>
-          {quiz.questions.map(({ id, question }) => (
-            <NavigatorAnswer
-              key={id}
-              slug={slug}
-              currentQid={qid}
-              qid={id}
-              question={question}
-            />
-          ))}
+          {quiz.questions.map(({ id, question }) => {
+            i += 1;
+
+            return (
+              <NavigatorAnswer
+                questionNumber={i}
+                key={id}
+                slug={slug}
+                currentQid={qid}
+                qid={id}
+                question={question}
+              />
+            );
+          })}
         </nav>
-        <div className="turn-in-quiz">
-          <button type="button">Turn In</button>
-        </div>
       </div>
     </QuestionNavigatorStyles>
   );
@@ -86,8 +91,7 @@ const QuestionNavigatorStyles = styled.div`
   }
 
   nav {
-    max-height: calc(100vh - 42rem);
-    /* min-height: 50rem; */
+    max-height: calc(100vh - 34rem);
     overflow-y: auto;
   }
 
@@ -100,23 +104,22 @@ const QuestionNavigatorStyles = styled.div`
     padding: 2rem 4rem;
     margin: 0;
     text-align: center;
-    border-bottom: 3px solid var(--bg-color);
+    border-bottom: 0.3rem solid var(--bg-color);
   }
 
   .question--link {
-    display: flex;
-    align-items: flex-start;
     padding: 0 2rem;
 
     a {
-      display: block;
-      padding: 2.5rem 2rem;
+      display: grid;
+      grid-template-columns: 3.5rem auto;
+      padding: 2.5rem 1rem;
       transition: var(--transition-none);
-      width: 100%;
+      text-align: left;
     }
 
     &:not(:last-child) a {
-      border-bottom: 1px solid var(--bg-color);
+      border-bottom: 0.1rem solid var(--bg-color);
     }
 
     a:not(.answered):hover {
@@ -134,44 +137,7 @@ const QuestionNavigatorStyles = styled.div`
     }
   }
 
-  a {
-    display: grid;
-    font-size: var(--fs-md);
-    text-align: left;
-    grid-template-columns: 1fr;
-    justify-items: start;
-    align-items: start;
-  }
-
   p {
     margin: 0;
-  }
-
-  .turn-in-quiz {
-    padding: 2rem 4rem;
-    border-top: 3px solid var(--bg-color);
-  }
-
-  .turn-in-quiz button {
-    --background-color: var(--primary-color);
-    background-color: var(--background-color);
-    border-radius: var(--br);
-    border: none;
-    color: var(--white);
-    cursor: pointer;
-    font-size: var(--fs-base);
-    height: 4rem;
-    outline: none;
-    width: 100%;
-    transition: var(--transition-none);
-
-    &:hover {
-      --background-color: var(--primary-color-dark);
-    }
-
-    &:focus {
-      --background-color: var(--primary-color-light);
-      transform: scale(0.98);
-    }
   }
 `;

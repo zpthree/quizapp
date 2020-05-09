@@ -36,7 +36,7 @@ const ThemeTogglerStyles = styled.button`
   position: relative;
   display: inline-block;
   width: 6rem;
-  height: 3rem;
+  height: 3.4rem;
   margin-left: 2rem;
   background: inherit;
   border: none;
@@ -60,8 +60,9 @@ const ThemeTogglerStyles = styled.button`
     content: '';
     height: 2.2rem;
     width: 2.2rem;
-    left: 0.4rem;
-    bottom: 0.4rem;
+    left: 0.6rem;
+    bottom: 0.6rem;
+    border-radius: 50%;
     background-color: var(--white);
     -webkit-transition: 0.4s;
     transition: 0.4s;
@@ -76,7 +77,7 @@ const ThemeTogglerStyles = styled.button`
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px var(--primary-color);
+    box-shadow: 0 0 0.1rem var(--primary-color);
   }
 
   .slider[data-dark-mode='true']:before {
@@ -88,9 +89,5 @@ const ThemeTogglerStyles = styled.button`
   /* Rounded sliders */
   .slider.round {
     border-radius: 2.8rem;
-  }
-
-  .slider.round:before {
-    border-radius: 50%;
   }
 `;
