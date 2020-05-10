@@ -1,3 +1,4 @@
+// import 'dotenv';
 import withApollo from 'next-with-apollo';
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { onError } from '@apollo/link-error';
@@ -22,7 +23,7 @@ function createClient({ headers, initialState }) {
       }),
       // this uses apollo-link-http under the hood, so all the options here come from that package
       createUploadLink({
-        uri: endpoint,
+        uri: process.env.ENDPOINT,
         fetchOptions: {
           credentials: 'include',
         },

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import QuestionStyles from '@styles/QuestionStyles';
 import ResultsStyles from '@styles/ResultsStyles';
@@ -7,7 +7,11 @@ import formatPercent from '@lib/formatPercent';
 
 export default function Results({ title, questions }) {
   const [correctAnswers, setCorrectAnswers] = useState([]);
-  const { answeredQuestions } = useContext(AppContext);
+  const { answeredQuestions, refetchAppData } = useContext(AppContext);
+
+  useEffect(() => {
+    refetchAppData();
+  }, [refetchAppData]);
 
   const totalQuestions = questions.length;
   const grade = formatPercent(correctAnswers.length / totalQuestions);

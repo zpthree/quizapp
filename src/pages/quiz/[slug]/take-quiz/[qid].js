@@ -17,15 +17,17 @@ function QuestionPage() {
       setTimeout(() => {
         // set the scroll position of the side bar navigation
         const overflow = document.querySelector('.navigator-wrapper nav');
-        const anchor = document.getElementById(qid);
 
-        // Get the bounding client rectangles for both
-        // the overflow container and the target anchor
-        const rectOverflow = overflow.getBoundingClientRect();
-        const rectAnchor = anchor.getBoundingClientRect();
+        if (overflow && qid) {
+          const anchor = document.getElementById(qid);
+          // Get the bounding client rectangles for both
+          // the overflow container and the target anchor
+          const rectOverflow = overflow.getBoundingClientRect();
+          const rectAnchor = anchor.getBoundingClientRect();
 
-        // Set the scroll position of the overflow container
-        overflow.scrollTop = rectAnchor.top - rectOverflow.top;
+          // Set the scroll position of the overflow container
+          overflow.scrollTop = rectAnchor.top - rectOverflow.top;
+        }
       }, 0);
     }
   }, [isDocument, qid]);

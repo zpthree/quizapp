@@ -61,14 +61,10 @@ const HeaderStyles = styled.header`
     border-radius: var(--br);
     background-color: var(--background-color);
     border: 2px solid var(--background-color);
+    transition: transform var(--transition);
 
     &:hover {
-      --background-color: var(--primary-color);
-      border: 2px solid var(--logo-bg-color);
-
-      a {
-        color: var(--white);
-      }
+      transform: scale(1.05);
     }
 
     a {

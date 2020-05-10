@@ -40,7 +40,7 @@ export const GlobalStyles = createGlobalStyle`
 
     --max-width: ${getMaxWidth()};
     --small-page-width: 85rem;
-    --transition: 400ms ease-in-out;
+    --transition: 200ms ease-in-out;
     --transition-none: all 0ms ease-in-out;
 
     /* font */
@@ -138,5 +138,43 @@ export const GlobalStyles = createGlobalStyle`
   a {
     color: var(--text-color);
     text-decoration: none;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--br);
+    margin-top: 1rem;
+    display: inline-block;
+    border: none;
+    outline: none;
+    font-size: var(--fs-base);
+    cursor: pointer;
+    transition: var(--transition-none);
+    background-color: var(--background-color);
+  }
+
+  .btn.btn--submit {
+    --background-color: var(--primary-color);
+    color: var(--white);
+
+    &[aria-disabled='true'] {
+      --background-color: var(--primary-color-light);
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    &:not([aria-disabled='false']):hover {
+      --background-color: var(--primary-color-dark);
+      color: var(--white);
+    }
+  }
+
+  .btn.btn--cancel {
+    --background-color: var(--grey);
+
+    &:hover {
+      --background-color: var(--text-color);
+      color: var(--bg-color);
+    }
   }
 `;

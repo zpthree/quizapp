@@ -86,7 +86,11 @@ export default function Question({ slug, qid }) {
           );
         })}
         <div className="question-nav-links">
-          <button type="button" className="go-back" onClick={router.back}>
+          <button
+            type="button"
+            className="btn btn--cancel"
+            onClick={router.back}
+          >
             Go Back
           </button>
           {remainingQuestions.length && isAnswered ? (
@@ -94,13 +98,11 @@ export default function Question({ slug, qid }) {
               href="/quiz/[slug]/take-quiz/[qid]"
               as={`/quiz/${slug}/take-quiz/${remainingQuestions[0].id}`}
             >
-              <a className="next-question" data-answered="true">
-                Next Unanswered Question
-              </a>
+              <a className="btn btn--submit">Next Unanswered Question</a>
             </Link>
           ) : null}
           {remainingQuestions.length && !isAnswered ? (
-            <p className="next-question" data-answered="false">
+            <p className="btn btn--submit" aria-disabled="true">
               Next Unanswered Question
             </p>
           ) : null}

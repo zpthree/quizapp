@@ -61,7 +61,7 @@ function Quiz() {
     if (thisQuizIsFinalized) {
       return (
         <Link href="/quiz/[slug]/results" as={`/quiz/${slug}/results`}>
-          <a id="turn-in-quiz">See Results</a>
+          <a className="btn btn--submit">See Results</a>
         </Link>
       );
     }
@@ -71,7 +71,7 @@ function Quiz() {
         <>
           <p>{quiz.questions.length} questions</p>
           <button
-            id="start-quiz"
+            className="btn btn--submit"
             type="button"
             onClick={async () => {
               if (activeQuiz && activeQuiz === slug) {
@@ -132,7 +132,7 @@ function Quiz() {
           href="/quiz/[slug]/take-quiz/[qid]"
           as={`/quiz/${slug}/take-quiz/${quiz.questions[0].id}`}
         >
-          <a id="resume-quiz">Resume Quiz</a>
+          <a className="btn btn--submit">Resume Quiz</a>
         </Link>
       );
     }
@@ -156,26 +156,6 @@ const QuizStyles = styled.div`
   width: 100%;
   max-width: var(--small-page-width);
   margin: auto;
-
-  #turn-in-quiz,
-  #resume-quiz,
-  #start-quiz {
-    --background-color: var(--primary-color);
-    background-color: var(--background-color);
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--br);
-    margin-top: 1rem;
-    display: inline-block;
-    border: none;
-    outline: none;
-    color: var(--white);
-    font-size: var(--fs-base);
-    cursor: pointer;
-
-    &:hover {
-      --background-color: var(--primary-color-dark);
-    }
-  }
 `;
 
 export default withLayout(Quiz);

@@ -51,8 +51,8 @@ const ThemeTogglerStyles = styled.button`
     right: 0;
     bottom: 0;
     background-color: #ccc;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
+    -webkit-transition: var(--transition);
+    transition: var(--transition);
   }
 
   .slider:before {
@@ -64,8 +64,8 @@ const ThemeTogglerStyles = styled.button`
     bottom: 0.6rem;
     border-radius: 50%;
     background-color: var(--white);
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
+    -webkit-transition: var(--transition);
+    transition: var(--transition);
   }
 
   .slider[data-dark-mode='true'] {

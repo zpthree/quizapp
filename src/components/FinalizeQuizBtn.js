@@ -14,14 +14,12 @@ const FINALIZE_QUIZ_MUTATION = gql`
 
 export default function FinalizeQuizBtn({ slug }) {
   const router = useRouter();
-  const { refetchAppData } = useContext(AppContext);
   const [getQuizResults] = useMutation(FINALIZE_QUIZ_MUTATION, {
     errorPolicy: 'all',
   });
   return (
     <button
-      className="get-results"
-      data-answered="true"
+      className="btn btn--submit"
       type="button"
       onClick={async () => {
         const isConfirmed = window.confirm(
@@ -30,7 +28,6 @@ export default function FinalizeQuizBtn({ slug }) {
 
         if (isConfirmed) {
           await getQuizResults({ variables: { slug } });
-          await refetchAppData();
           router.push('/quiz/[slug]/results', `/quiz/${slug}/results`);
         }
       }}
