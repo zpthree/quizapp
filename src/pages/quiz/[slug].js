@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import withLayout from '@components/withLayout';
 import Error from '@components/ErrorMessage';
 import { AppContext } from '@components/AppContext';
+import { loading } from '@styles/AnswerStyles';
 
 export const GET_QUIZ_QUERY = gql`
   query GET_QUIZ_QUERY($slug: String!) {
@@ -42,14 +43,21 @@ function Quiz() {
   const router = useRouter();
   const { slug } = router.query;
   const { finalized, activeQuiz, refetchAppData } = useContext(AppContext);
-  const { loading, error, data } = useQuery(GET_QUIZ_QUERY, {
+  const { loading: isLoading, error, data } = useQuery(GET_QUIZ_QUERY, {
     variables: { slug },
   });
   const [takeQuiz] = useMutation(TAKE_QUIZ_MUTATION, {
     errorPolicy: 'all',
   });
 
-  if (loading) return null;
+  if (isLoading)
+    return (
+      <QuizStyles className="loading">
+        <div className="heading" />
+        <div className="body" />
+        <div className="btn" />
+      </QuizStyles>
+    );
   if (error) return <Error error={error} />;
 
   const quiz = data.oneQuiz;
@@ -156,6 +164,40 @@ const QuizStyles = styled.div`
   max-width: var(--small-page-width);
   padding: 4rem var(--gutter);
   width: 100%;
+
+  &.loading > div {
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: ${loading};
+    animation-timing-function: linear;
+    background: linear-gradient(
+      to right,
+      var(--bg-color-alt) 25%,
+      var(--bg-color) 50%,
+      var(--bg-color-alt) 75%
+    );
+    background-size: 100rem 10.4rem;
+    border-radius: var(--br);
+    cursor: progress;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  &.loading .heading {
+    height: 6rem;
+    width: 50%;
+  }
+
+  &.loading .body {
+    min-height: 40rem;
+  }
+
+  &.loading .btn {
+    height: 4rem;
+    width: 12rem;
+  }
 `;
 
 export default withLayout(Quiz);
