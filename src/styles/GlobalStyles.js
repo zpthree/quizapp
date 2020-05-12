@@ -41,11 +41,9 @@ export const GlobalStyles = createGlobalStyle`
     --white: #fff;
     --offwhite: #fdfdfd;
 
-    --primary-color: ${({ primaryColor }) => primaryColor};
-    --primary-color-light: ${({ primaryColor }) =>
-      lighten(0.075, `${primaryColor}`)};
-    --primary-color-dark: ${({ primaryColor }) =>
-      darken(0.075, `${primaryColor}`)};
+    --primary-color: ${({ primaryColor: x }) => x};
+    --primary-color-light: ${({ primaryColor: x }) => lighten(0.075, `${x}`)};
+    --primary-color-dark: ${({ primaryColor: x }) => darken(0.075, `${x}`)};
 
     --text-color-light: #999;
     --text-color-alt: var(--primary-color);
@@ -56,20 +54,20 @@ export const GlobalStyles = createGlobalStyle`
     ${({ theme }) => {
       if (theme === 'dark') {
         return `
-        --bg-color: var(--black);
         --bg-color-alt: var(--charcoal);
+        --bg-color: var(--black);
         --border-color: var(--charcoal);
-        --text-color: var(--white);
         --nprogress-bar: var(--white);
+        --text-color: var(--white);
         `;
       }
 
       return `
-      --bg-color: var(--white);
       --bg-color-alt: var(--lightgrey);
+      --bg-color: var(--white);
       --border-color: var(--grey);
-      --text-color: var(--black);
       --nprogress-bar: var(--white);
+      --text-color: var(--black);
       `;
     }};
 
@@ -83,11 +81,11 @@ export const GlobalStyles = createGlobalStyle`
       --fs-root: .5vw;
     }
     @media print {
-      --bg-color: var(--white);
       --bg-color-alt: var(--lightgrey);
+      --bg-color: var(--white);
       --border-color: var(--grey);
-      --text-color: var(--black);
       --nprogress-bar: var(--primary-color);
+      --text-color: var(--black);
     }
   }
 
@@ -113,21 +111,21 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    -webkit-print-color-adjust: exact !important;
     background: var(--bg-color);
+    color-adjust: exact !important;
     color: var(--text-color);
+    font-family: sans-serif;
     font-size: var(--fs-base);
     line-height: 1.5;
-    font-family: sans-serif;
-    color-adjust: exact !important;
-    -webkit-print-color-adjust: exact !important;
   }
 
   @media print {
     @page {
-      padding: 0;
-      margin: 3rem;
-      border: none;
       border-collapse: collapse;
+      border: none;
+      margin: 3rem;
+      padding: 0;
     }
   }
 
@@ -143,16 +141,16 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--br);
-    margin-top: 1rem;
-    display: inline-block;
-    border: none;
-    outline: none;
-    font-size: var(--fs-base);
-    cursor: pointer;
-    transition: var(--transition-none);
     background-color: var(--background-color);
+    border-radius: var(--br);
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    font-size: var(--fs-base);
+    margin-top: 1rem;
+    outline: none;
+    padding: 0.75rem 1.5rem;
+    transition: var(--transition-none);
   }
 
   .btn.btn--submit {
@@ -161,8 +159,8 @@ export const GlobalStyles = createGlobalStyle`
 
     &[aria-disabled='true'] {
       --background-color: var(--primary-color-light);
-      opacity: 0.4;
       cursor: default;
+      opacity: 0.4;
     }
 
     &:not([aria-disabled='true']):hover {

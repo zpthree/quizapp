@@ -13,14 +13,18 @@ const ResultsStyles = styled.div`
     min-height: 40rem;
   }
 
-  width: 100%;
-  max-width: var(--small-page-width);
-  margin: 4rem auto;
-  border: 0.1rem solid var(--border-color);
-  box-shadow: var(--box-shadow);
-  border-radius: var(--br);
   padding: 2rem var(--gutter);
-  position: relative;
+
+  & > div {
+    border-radius: var(--br);
+    border: 0.1rem solid var(--border-color);
+    box-shadow: var(--box-shadow);
+    margin: 4rem auto;
+    max-width: var(--small-page-width);
+    padding: 2rem var(--gutter);
+    position: relative;
+    width: 100%;
+  }
 
   @media print {
     border: none;
@@ -31,9 +35,9 @@ const ResultsStyles = styled.div`
 
   .grade {
     display: inline-block;
-    padding: 0.5rem 0;
-    margin: 0;
     font-size: var(--fs-base);
+    margin: 0;
+    padding: 0.5rem 0;
 
     span {
       font-weight: 600;
@@ -57,8 +61,8 @@ const ResultsStyles = styled.div`
   }
 
   h2 {
-    font-size: var(--fs-base);
     display: grid;
+    font-size: var(--fs-base);
     grid-template-columns: 3rem auto;
   }
 
@@ -72,16 +76,16 @@ const ResultsStyles = styled.div`
   }
 
   .question-explanation {
+    border: 0.1rem solid var(--border-color);
     display: grid;
     grid-template-columns: 4rem auto;
-    border: 0.1rem solid var(--border-color);
     margin-top: 4rem;
     padding: 1rem 2rem 1rem 1rem;
   }
 
   .question-explanation--light-blub {
-    margin: 1.8rem 0;
     font-size: var(--fs-xl);
+    margin: 1.8rem 0;
   }
 
   .results-answer {

@@ -31,8 +31,8 @@ const QuestionPlaceholderStyles = styled.div`
     display: grid;
     grid-gap: 2rem;
     grid-template-columns: 1;
-    width: 100%;
     position: relative;
+    width: 100%;
   }
 
   .answer {
@@ -53,14 +53,14 @@ const QuestionPlaceholderStyles = styled.div`
     );
     background-size: 100rem 10.4rem;
     border-radius: var(--br);
-    position: relative;
-    overflow: hidden;
     cursor: progress;
+    overflow: hidden;
+    position: relative;
   }
 
   .question-nav-links {
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: space-between;
   }
 

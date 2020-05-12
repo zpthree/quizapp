@@ -42,15 +42,15 @@ export const QuizListingStyles = styled.div`
     return `--box-shadow: 0 .2rem .2rem .1rem rgba(0, 0, 0, 0.1);`;
   }}
 
+  border-radius: var(--br);
   border: 0.1rem solid var(--border-color);
   box-shadow: var(--box-shadow);
-  border-radius: var(--br);
   padding: 1rem 2rem;
 
   h2 {
     font-size: var(--fs-lg);
-    transition: var(--transition-none);
     margin-top: 1rem;
+    transition: var(--transition-none);
   }
 
   p {

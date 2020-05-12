@@ -9,13 +9,13 @@ const QuestionStyles = styled.div`
     display: grid;
     grid-gap: 2rem;
     grid-template-columns: 1;
-    width: 100%;
     position: relative;
+    width: 100%;
   }
 
   .question-nav-links {
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: space-between;
   }
 `;

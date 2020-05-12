@@ -21,70 +21,73 @@ export default function Results({ title, questions }) {
 
   return (
     <ResultsStyles theme={theme}>
-      <h1>{title}</h1>
-      <p className="grade" data-good-grade={`${goodGrade}`}>
-        You answered <span>{grade}</span> of the questions correctly
-      </p>
-      {questions.map(question => {
-        questionNum += 1;
-        return (
-          <QuestionStyles key={question.id} className="results-question">
-            <h2>
-              <span>{questionNum})</span> <span>{question.question}</span>
-            </h2>
-            <div className="results-answers">
-              {question.answers?.map(answer => {
-                if (answerNum >= question.answers.length) answerNum = 0;
-                answerNum += 1;
+      <div>
+        <h1>{title}</h1>
+        <p className="grade" data-good-grade={`${goodGrade}`}>
+          You answered <span>{grade}</span> of the questions correctly
+        </p>
+        {questions.map(question => {
+          questionNum += 1;
+          return (
+            <QuestionStyles key={question.id} className="results-question">
+              <h2>
+                <span>{questionNum})</span> <span>{question.question}</span>
+              </h2>
+              <div className="results-answers">
+                {question.answers?.map(answer => {
+                  if (answerNum >= question.answers.length) answerNum = 0;
+                  answerNum += 1;
 
-                const letter = String.fromCharCode(
-                  97 + (answerNum - 1)
-                ).toUpperCase();
+                  const letter = String.fromCharCode(
+                    97 + (answerNum - 1)
+                  ).toUpperCase();
 
-                const [thisQuestion] = answeredQuestions.filter(
-                  ({ id }) => id === question.id
-                );
+                  const [thisQuestion] = answeredQuestions.filter(
+                    ({ id }) => id === question.id
+                  );
 
-                const isCorrect = !!(
-                  answer.correct && answer.id === thisQuestion.answerId
-                );
+                  const isCorrect = !!(
+                    answer.correct && answer.id === thisQuestion.answerId
+                  );
 
-                if (isCorrect && !correctAnswers.includes(answer.id)) {
-                  setCorrectAnswers(prevState => [...prevState, answer.id]);
-                }
-                const correctAnswer = !isCorrect && answer.correct && answer.id;
+                  if (isCorrect && !correctAnswers.includes(answer.id)) {
+                    setCorrectAnswers(prevState => [...prevState, answer.id]);
+                  }
+                  const correctAnswer =
+                    !isCorrect && answer.correct && answer.id;
 
-                const thisAnswer =
-                  thisQuestion &&
-                  answer.id &&
-                  thisQuestion.answerId &&
-                  answer.id === thisQuestion.answerId;
+                  const thisAnswer =
+                    thisQuestion &&
+                    answer.id &&
+                    thisQuestion.answerId &&
+                    answer.id === thisQuestion.answerId;
 
-                return (
-                  <div
-                    key={answer.id}
-                    className="results-answer"
-                    data-answered={`${!!thisAnswer}`}
-                    data-is-correct={`${!!isCorrect}`}
-                    data-correct-answer={`${!!correctAnswer}`}
-                  >
-                    <p className="results-answer--letter">{`${letter})`}</p>
-                    <p className="results-answer--answer">{answer.answer}</p>
-                  </div>
-                );
-              })}
-            </div>
-            {question.explanation && (
-              <div className="question-explanation">
-                <p className="question-explanation--light-blub">💡</p>
-                <p className="question-explanation--explanation">
-                  {question.explanation}
-                </p>
+                  return (
+                    <div
+                      key={answer.id}
+                      className="results-answer"
+                      data-answered={`${!!thisAnswer}`}
+                      data-is-correct={`${!!isCorrect}`}
+                      data-correct-answer={`${!!correctAnswer}`}
+                    >
+                      <p className="results-answer--letter">{`${letter})`}</p>
+                      <p className="results-answer--answer">{answer.answer}</p>
+                    </div>
+                  );
+                })}
               </div>
-            )}
-          </QuestionStyles>
-        );
-      })}
+              {question.explanation && (
+                <div className="question-explanation">
+                  <p className="question-explanation--light-blub">💡</p>
+                  <p className="question-explanation--explanation">
+                    {question.explanation}
+                  </p>
+                </div>
+              )}
+            </QuestionStyles>
+          );
+        })}
+      </div>
     </ResultsStyles>
   );
 }

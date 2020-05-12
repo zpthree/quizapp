@@ -48,12 +48,12 @@ function QuizzesPage() {
 
 const QuizzesPageStyles = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
   grid-gap: 4rem;
-  padding: 4rem var(--gutter);
+  grid-template-columns: 1fr;
 
   &.inner {
     max-width: var(--small-page-width);
+    padding: 4rem var(--gutter);
   }
 
   &.loading > div {

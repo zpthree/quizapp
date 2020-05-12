@@ -33,39 +33,39 @@ export default function ToggleTheme() {
 
 const ThemeTogglerStyles = styled.button`
   /* The switch - the box around the slider */
-  position: relative;
-  display: inline-block;
-  width: 6rem;
-  height: 3.4rem;
-  margin-left: 2rem;
   background: inherit;
   border: none;
+  display: inline-block;
+  height: 3.4rem;
+  margin-left: 2rem;
   outline: none;
+  position: relative;
+  width: 6rem;
 
   /* The slider */
   .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    -webkit-transition: var(--transition);
     background-color: #ccc;
-    -webkit-transition: var(--transition);
-    transition: var(--transition);
-  }
-
-  .slider:before {
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
     position: absolute;
-    content: '';
-    height: 2.2rem;
-    width: 2.2rem;
-    left: 0.6rem;
-    bottom: 0.6rem;
-    border-radius: 50%;
-    background-color: var(--white);
-    -webkit-transition: var(--transition);
+    right: 0;
+    top: 0;
     transition: var(--transition);
+
+    &:before {
+      -webkit-transition: var(--transition);
+      background-color: var(--white);
+      border-radius: 50%;
+      bottom: 0.6rem;
+      content: '';
+      height: 2.2rem;
+      left: 0.6rem;
+      position: absolute;
+      transition: var(--transition);
+      width: 2.2rem;
+    }
   }
 
   .slider[data-dark-mode='true'] {
@@ -81,8 +81,8 @@ const ThemeTogglerStyles = styled.button`
   }
 
   .slider[data-dark-mode='true']:before {
-    -webkit-transform: translateX(2.6rem);
     -ms-transform: translateX(2.6rem);
+    -webkit-transform: translateX(2.6rem);
     transform: translateX(2.6rem);
   }
 

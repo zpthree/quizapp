@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { AppContext } from '@components/AppContext';
 
 const FINALIZE_QUIZ_MUTATION = gql`
   mutation FINALIZE_QUIZ_MUTATION($slug: String!) {

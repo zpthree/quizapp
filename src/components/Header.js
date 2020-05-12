@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -78,25 +78,25 @@ const HeaderStyles = styled.header`
     }
 
     a {
-      font-size: var(--fs-lg);
       color: var(--white);
-      padding: 0.4rem 1.2rem;
+      display: block;
+      font-size: var(--fs-lg);
       font-weight: 600;
       letter-spacing: 0.11rem;
-      display: block;
+      padding: 0.4rem 1.2rem;
     }
   }
 
   nav {
-    display: flex;
     align-items: center;
+    display: flex;
   }
 
   nav a {
     border-radius: var(--br);
     color: var(--white);
-    padding: 0.4rem 1.2rem;
     margin: 0.5rem;
+    padding: 0.4rem 1.2rem;
     transition: var(--transition-none);
 
     &:hover {

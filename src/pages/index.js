@@ -28,24 +28,30 @@ function HomePage() {
 }
 
 const HomePageStyles = styled.div`
-  --bg-color: var(--primary-color);
-  .hero {
-  }
-
+  --columns: 1;
   .hero .inner {
-    padding: 4rem var(--gutter);
-    display: grid;
-    grid-template-columns: 3fr 4fr;
-    grid-gap: 10rem;
-    color: var(--white);
-    min-height: calc(100vh - 16.4rem);
     align-items: center;
+    color: var(--white);
+    display: grid;
+    grid-gap: 10rem;
+    grid-template-columns: var(--columns);
+    min-height: calc(100vh - 16.4rem);
+    padding: 4rem var(--gutter);
+
+    @media screen and (min-width: 990px) {
+      --columns: 3fr 4fr;
+    }
 
     .intro {
+      align-items: flex-start;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
       justify-content: center;
+      order: 1;
+
+      @media screen and (min-width: 990px) {
+        order: 0;
+      }
     }
 
     p {
@@ -53,12 +59,17 @@ const HomePageStyles = styled.div`
     }
 
     .btn--submit {
-      display: inline-block;
       border: 2px solid var(--white);
+      display: inline-block;
     }
 
     svg {
+      order: 0;
       width: 100%;
+
+      @media screen and (min-width: 990px) {
+        order: 1;
+      }
     }
   }
 `;

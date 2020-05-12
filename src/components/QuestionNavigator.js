@@ -85,8 +85,8 @@ const QuestionNavigatorStyles = styled.div`
 
   .navigator-wrapper {
     background-color: var(--bg-color-alt);
-    padding: 0;
     border-radius: var(--br);
+    padding: 0;
     right: 0;
   }
 
@@ -101,10 +101,10 @@ const QuestionNavigatorStyles = styled.div`
   }
 
   h3 {
-    padding: 2rem 4rem;
-    margin: 0;
-    text-align: center;
     border-bottom: 0.3rem solid var(--bg-color);
+    margin: 0;
+    padding: 2rem 4rem;
+    text-align: center;
   }
 
   .question--link {
@@ -114,8 +114,8 @@ const QuestionNavigatorStyles = styled.div`
       display: grid;
       grid-template-columns: 3.5rem auto;
       padding: 2.5rem 1rem;
-      transition: var(--transition-none);
       text-align: left;
+      transition: var(--transition-none);
     }
 
     &:not(:last-child) a {

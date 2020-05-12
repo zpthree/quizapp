@@ -51,8 +51,8 @@ Footer.propTypes = {
 };
 
 const FooterStyles = styled.footer`
-  height: 8rem;
   font-size: var(--fs-md);
+  height: 8rem;
 
   &,
   a {
@@ -78,21 +78,21 @@ const FooterStyles = styled.footer`
   }
 
   .inner {
-    height: 8rem;
-    max-width: var(--small-page-width);
-    display: flex;
-    justify-content: center;
     align-items: center;
+    display: flex;
+    height: 8rem;
+    justify-content: center;
+    max-width: var(--small-page-width);
 
     div,
     div > a {
-      display: flex;
       align-items: center;
+      display: flex;
     }
 
     p {
-      padding: 0 2rem;
       margin: 0 2rem;
+      padding: 0 2rem;
     }
 
     p:first-child {

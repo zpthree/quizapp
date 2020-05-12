@@ -152,10 +152,10 @@ function Quiz() {
 }
 
 const QuizStyles = styled.div`
+  margin: auto;
+  max-width: var(--small-page-width);
   padding: 4rem var(--gutter);
   width: 100%;
-  max-width: var(--small-page-width);
-  margin: auto;
 `;
 
 export default withLayout(Quiz);

@@ -65,15 +65,20 @@ export const QuestionPageWrapper = styled.div`
 
   h1 {
     font-size: var(--fs-2xl);
-    width: 100%;
     margin: 0;
+    width: 100%;
   }
 
   .wrapper.inner {
+    --columns: 1fr;
     display: grid;
-    grid-template-columns: 3fr 1.15fr;
     grid-gap: 4rem;
+    grid-template-columns: var(--columns);
     padding: 4rem var(--gutter);
     position: relative;
+
+    @media screen and (min-width: 990px) {
+      --columns: 3fr 1.15fr;
+    }
   }
 `;

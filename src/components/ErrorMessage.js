@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const ErrorStyles = styled.div`
-  padding: 1rem 1.5rem;
   background: white;
-  margin: 2rem 0;
   border-left: 7.5px solid #e30d0d;
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+
   p {
-    margin: 0;
     font-weight: 100;
+    margin: 0;
     text-align: left;
   }
   strong {
