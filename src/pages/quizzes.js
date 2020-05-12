@@ -2,7 +2,8 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import styled from 'styled-components';
 import withLayout from '@components/withLayout';
-import QuizListing from '@components/QuizListing';
+import QuizListing, { QuizListingStyles } from '@components/QuizListing';
+import { loading } from '@styles/AnswerStyles';
 
 const ALL_QUIZZES_QUERY = gql`
   {
@@ -23,9 +24,17 @@ const ALL_QUIZZES_QUERY = gql`
 `;
 
 function QuizzesPage() {
-  const { loading, error, data } = useQuery(ALL_QUIZZES_QUERY);
+  const { loading: isLoading, error, data } = useQuery(ALL_QUIZZES_QUERY);
 
-  if (loading) return 'Loading...';
+  if (isLoading)
+    return (
+      <QuizzesPageStyles className="loading inner">
+        <QuizListingStyles />
+        <QuizListingStyles />
+        <QuizListingStyles />
+        <QuizListingStyles />
+      </QuizzesPageStyles>
+    );
   if (error) return `Error! ${error.message}`;
 
   return (
@@ -39,9 +48,18 @@ function QuizzesPage() {
 
 const QuizzesPageStyles = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 2rem;
+  grid-template-columns: 1fr;
+  grid-gap: 4rem;
   padding: 4rem var(--gutter);
+
+  &.inner {
+    max-width: var(--small-page-width);
+  }
+
+  &.loading > div {
+    height: 13rem;
+    overflow: hidden;
+  }
 `;
 
 export default withLayout(QuizzesPage);

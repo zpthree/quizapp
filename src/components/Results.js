@@ -7,7 +7,7 @@ import formatPercent from '@lib/formatPercent';
 
 export default function Results({ title, questions }) {
   const [correctAnswers, setCorrectAnswers] = useState([]);
-  const { answeredQuestions, refetchAppData } = useContext(AppContext);
+  const { theme, answeredQuestions, refetchAppData } = useContext(AppContext);
 
   useEffect(() => {
     refetchAppData();
@@ -20,7 +20,7 @@ export default function Results({ title, questions }) {
   let answerNum = 0;
 
   return (
-    <ResultsStyles>
+    <ResultsStyles theme={theme}>
       <h1>{title}</h1>
       <p className="grade" data-good-grade={`${goodGrade}`}>
         You answered <span>{grade}</span> of the questions correctly

@@ -18,29 +18,9 @@ function getMaxWidth() {
 
 export const GlobalStyles = createGlobalStyle`
   :root {
-    /* theme variables */
-    --bg-color: ${({ theme }) =>
-      theme === 'dark' ? 'var(--black)' : 'var(--white)'};
-    --bg-color-alt: ${({ theme }) =>
-      theme === 'dark' ? 'var(--charcoal)' : 'var(--lightgrey)'};
-    --border-color: ${({ theme }) =>
-      theme === 'dark' ? 'var(--charcoal)' : 'var(--grey)'};
-    --text-color: ${({ theme }) =>
-      theme === 'dark' ? 'var(--white)' : 'var(--black)'};
-    --nprogress-bar: ${({ theme }) =>
-      theme === 'dark' ? 'var(--white)' : 'var(--white)'};
-    --results-page-box-shadow: ${({ theme }) =>
-      theme === 'dark'
-        ? '0 .1rem .4rem .2rem rgba(150, 150, 150, .2)'
-        : '0 .4rem .4rem .2rem rgba(0, 0, 0, .1)'};
-    --logo-bg-color: ${({ theme }) =>
-      theme === 'dark' ? 'var(--black)' : 'var(--white)'};
-    --logo-text-color: ${({ theme }) =>
-      theme === 'dark' ? 'var(--white)' : 'var(--primary-color)'};
-
     --max-width: ${getMaxWidth()};
     --small-page-width: 85rem;
-    --transition: 200ms ease-in-out;
+    --transition: 400ms ease-in-out;
     --transition-none: all 0ms ease-in-out;
 
     /* font */
@@ -55,7 +35,7 @@ export const GlobalStyles = createGlobalStyle`
 
     /* colors */
     --black: #000;
-    --charcoal: #141414;
+    --charcoal: #0e0e0e;
     --grey: #ccc;
     --lightgrey: #f4f4f4;
     --white: #fff;
@@ -72,6 +52,28 @@ export const GlobalStyles = createGlobalStyle`
 
     --br: 2px;
     --gutter: 2rem;
+
+    ${({ theme }) => {
+      if (theme === 'dark') {
+        return `
+        --bg-color: var(--black);
+        --bg-color-alt: var(--charcoal);
+        --border-color: var(--charcoal);
+        --text-color: var(--white);
+        --nprogress-bar: var(--white);
+        `;
+      }
+
+      return `
+      --bg-color: var(--white);
+      --bg-color-alt: var(--lightgrey);
+      --border-color: var(--grey);
+      --text-color: var(--black);
+      --nprogress-bar: var(--white);
+      `;
+    }};
+
+    --bg-color: ${({ route }) => route === '/' && 'var(--primary-color)'};
 
     @media screen and (min-width: 990px) {
       --gutter: 4rem;
@@ -159,12 +161,12 @@ export const GlobalStyles = createGlobalStyle`
 
     &[aria-disabled='true'] {
       --background-color: var(--primary-color-light);
-      opacity: 0.6;
+      opacity: 0.4;
       cursor: default;
     }
 
-    &:not([aria-disabled='false']):hover {
-      --background-color: var(--primary-color-dark);
+    &:not([aria-disabled='true']):hover {
+      --background-color: var(--primary-color-light);
       color: var(--white);
     }
   }

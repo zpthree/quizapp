@@ -5,6 +5,7 @@ import keyby from 'lodash.keyby';
 import withLayout from '@components/withLayout';
 import { AppContext } from '@components/AppContext';
 import Results from '@components/Results';
+import ResultsStyles from '@styles/ResultsStyles';
 
 const QUIZ_QUERY = gql`
   query QUIZ_QUERY($slug: String!) {
@@ -30,9 +31,11 @@ function ResultsPage() {
   const { loading, error, data } = useQuery(QUIZ_QUERY, {
     variables: { slug },
   });
-  const { answeredQuestions, remainingQuestions } = useContext(AppContext);
+  const { theme, answeredQuestions, remainingQuestions } = useContext(
+    AppContext
+  );
 
-  if (loading) return null;
+  if (loading) return <ResultsStyles theme={theme} className="loading" />;
   if (error) return `Error! ${error}`;
 
   const quiz = data.oneQuiz;

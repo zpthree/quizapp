@@ -4,7 +4,6 @@ import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { onError } from '@apollo/link-error';
 import { getDataFromTree } from '@apollo/react-ssr';
 import { createUploadLink } from 'apollo-upload-client';
-import { endpoint } from 'config';
 
 function createClient({ headers, initialState }) {
   return new ApolloClient({
@@ -23,7 +22,10 @@ function createClient({ headers, initialState }) {
       }),
       // this uses apollo-link-http under the hood, so all the options here come from that package
       createUploadLink({
-        uri: process.env.ENDPOINT,
+        uri:
+          process.env.NODE_ENV === 'development'
+            ? process.env.devEndpoint
+            : process.env.prodEndpoint,
         fetchOptions: {
           credentials: 'include',
         },

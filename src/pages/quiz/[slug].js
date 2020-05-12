@@ -45,7 +45,7 @@ function Quiz() {
   const { loading, error, data } = useQuery(GET_QUIZ_QUERY, {
     variables: { slug },
   });
-  const [takeQuiz, { data: mutatedData }] = useMutation(TAKE_QUIZ_MUTATION, {
+  const [takeQuiz] = useMutation(TAKE_QUIZ_MUTATION, {
     errorPolicy: 'all',
   });
 

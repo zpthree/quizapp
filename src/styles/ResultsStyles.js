@@ -1,16 +1,30 @@
 import styled from 'styled-components';
 
 const ResultsStyles = styled.div`
+  ${({ theme }) => {
+    if (theme === 'dark') {
+      return `--box-shadow: 0 .2rem .2rem .2rem rgba(255, 255, 255, 0.1);`;
+    }
+
+    return `--box-shadow: 0 .2rem .2rem .1rem rgba(0, 0, 0, 0.1);`;
+  }}
+
+  &.loading {
+    min-height: 40rem;
+  }
+
   width: 100%;
   max-width: var(--small-page-width);
   margin: 4rem auto;
   border: 0.1rem solid var(--border-color);
+  box-shadow: var(--box-shadow);
   border-radius: var(--br);
   padding: 2rem var(--gutter);
   position: relative;
 
   @media print {
     border: none;
+    box-shadow: none;
     margin-top: 0;
     width: 8.5in;
   }

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import styled from 'styled-components';
 import Router from 'next/router';
@@ -17,9 +18,9 @@ Router.onRouteChangeError = () => {
   NProgress.done();
 };
 
-function Header() {
+export default function Header({ theme, route }) {
   return (
-    <HeaderStyles>
+    <HeaderStyles theme={theme} route={route}>
       <div className="inner">
         <p id="logo">
           <Link href="/">
@@ -40,9 +41,20 @@ function Header() {
   );
 }
 
+Header.propTypes = {
+  theme: PropTypes.string.isRequired,
+  route: PropTypes.string.isRequired,
+};
+
 const HeaderStyles = styled.header`
-  /* border-bottom: 0.2rem solid var(--primary-color); */
-  background-color: var(--primary-color);
+  ${({ theme, route }) => {
+    if (route === '/' || theme !== 'dark') {
+      return 'background-color: var(--primary-color);';
+    }
+
+    return 'background-color: var(--background-color);';
+  }};
+
   width: 100%;
 
   @media print {
@@ -57,9 +69,7 @@ const HeaderStyles = styled.header`
   }
 
   #logo {
-    --background-color: var(--logo-bg-color);
     border-radius: var(--br);
-    background-color: var(--background-color);
     border: 2px solid var(--background-color);
     transition: transform var(--transition);
 
@@ -68,7 +78,8 @@ const HeaderStyles = styled.header`
     }
 
     a {
-      color: var(--logo-text-color);
+      font-size: var(--fs-lg);
+      color: var(--white);
       padding: 0.4rem 1.2rem;
       font-weight: 600;
       letter-spacing: 0.11rem;
@@ -89,10 +100,8 @@ const HeaderStyles = styled.header`
     transition: var(--transition-none);
 
     &:hover {
-      background: var(--primary-color-dark);
+      background: var(--primary-color-light);
       color: var(--white);
     }
   }
 `;
-
-export default Header;

@@ -33,12 +33,17 @@ QuizListing.propTypes = {
   quiz: PropTypes.object.isRequired,
 };
 
-const QuizListingStyles = styled.div`
-  /* border: 0.2rem solid var(--border-color); */
-  box-shadow: ${({ theme }) =>
-    theme === 'dark'
-      ? '0 2px 2px 2px rgba(255, 255, 255, 0.1)'
-      : '0 2px 2px 2px rgba(0, 0, 0, 0.1)'};
+export const QuizListingStyles = styled.div`
+  ${({ theme }) => {
+    if (theme === 'dark') {
+      return `--box-shadow: 0 .2rem .2rem .2rem rgba(255, 255, 255, 0.1);`;
+    }
+
+    return `--box-shadow: 0 .2rem .2rem .1rem rgba(0, 0, 0, 0.1);`;
+  }}
+
+  border: 0.1rem solid var(--border-color);
+  box-shadow: var(--box-shadow);
   border-radius: var(--br);
   padding: 1rem 2rem;
 
