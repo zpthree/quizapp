@@ -14,9 +14,25 @@ const QuestionStyles = styled.div`
   }
 
   .question-nav-links {
+    --direction: column;
+    --btn-width: 100%;
     align-items: center;
     display: flex;
+    flex-direction: var(--direction);
     justify-content: space-between;
+
+    & > button,
+    & > a,
+    & > p {
+      max-width: 34rem;
+      text-align: center;
+      width: var(--btn-width);
+    }
+
+    @media screen and (min-width: 768px) {
+      --direction: row;
+      --btn-width: auto;
+    }
   }
 `;
 

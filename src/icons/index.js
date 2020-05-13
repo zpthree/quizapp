@@ -1,4 +1,4 @@
-import CorrectAnswerIcon from './CorrectAnswerIcon';
-import WrongAnswerIcon from './WrongAnswerIcon';
+import Twitter from './Twitter';
+import GitHub from './GitHub';
 
-export { CorrectAnswerIcon, WrongAnswerIcon };
+export { Twitter, GitHub };

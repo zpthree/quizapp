@@ -4,12 +4,12 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { AppContext } from '@components/AppContext';
 
-function makeExcerpt({ string, outputLength }) {
-  if (string.length <= outputLength) {
+function makeExcerpt({ string, length }) {
+  if (string.length <= length) {
     return string;
   }
 
-  return `${string.substring(0, outputLength)}...`;
+  return `${string.substring(0, length)}...`;
 }
 
 function QuizListing({ quiz }) {
@@ -23,7 +23,7 @@ function QuizListing({ quiz }) {
         </Link>
       </h2>
       {quiz.description && (
-        <p>{makeExcerpt({ string: quiz.description, outputLength: 100 })}</p>
+        <p>{makeExcerpt({ string: quiz.description, length: 240 })}</p>
       )}
     </QuizListingStyles>
   );

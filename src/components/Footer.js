@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import GitHub from '@icons/GitHub';
-import Twitter from '@icons/Twitter';
+import { Twitter, GitHub } from '@icons';
 
 export default function Footer({ route }) {
   return (
@@ -51,13 +50,26 @@ Footer.propTypes = {
 };
 
 const FooterStyles = styled.footer`
+  ${({ route }) => {
+    if (route === '/') {
+      return `
+        --color: var(--white);
+        --color-hover: var(--black)
+      `;
+    }
+
+    return `
+      --color: var(--text-color-light);
+      --color-hover: var(--text-color)
+    `;
+  }};
+
   font-size: var(--fs-md);
   height: 8rem;
 
   &,
   a {
-    color: ${({ route }) =>
-      route === '/' ? 'var(--white)' : 'var(--text-color-light)'};
+    color: var(--color);
   }
 
   p > a {
@@ -67,10 +79,18 @@ const FooterStyles = styled.footer`
   svg {
     height: 2.5rem;
     width: 2.5rem;
+
+    path {
+      fill: var(--color);
+    }
   }
 
-  div > a:hover {
-    opacity: 0.75;
+  a:hover {
+    color: var(--color-hover);
+
+    svg path {
+      fill: var(--color-hover);
+    }
   }
 
   div > a:not(:last-child) {
@@ -78,11 +98,17 @@ const FooterStyles = styled.footer`
   }
 
   .inner {
+    --direction: column;
     align-items: center;
+    flex-direction: var(--direction);
     display: flex;
     height: 8rem;
     justify-content: center;
     max-width: var(--small-page-width);
+
+    @media screen and (min-width: 768px) {
+      --direction: row;
+    }
 
     div,
     div > a {
@@ -90,13 +116,24 @@ const FooterStyles = styled.footer`
       display: flex;
     }
 
-    p {
+    & > p {
       margin: 0 2rem;
       padding: 0 2rem;
     }
 
     p:first-child {
-      border-right: 1px solid var(--border-color);
+      @media screen and (min-width: 768px) {
+        border-right: 0.1rem solid var(--border-color);
+      }
+    }
+
+    & > p,
+    & > div {
+      margin-bottom: 2rem;
+
+      @media screen and (min-width: 768px) {
+        margin-bottom: 0;
+      }
     }
   }
 `;

@@ -7,6 +7,7 @@ import withLayout from '@components/withLayout';
 import Error from '@components/ErrorMessage';
 import { AppContext } from '@components/AppContext';
 import { loading } from '@styles/AnswerStyles';
+import Modal from '@components/Modal';
 
 export const GET_QUIZ_QUERY = gql`
   query GET_QUIZ_QUERY($slug: String!) {
@@ -42,7 +43,9 @@ const TAKE_QUIZ_MUTATION = gql`
 function Quiz() {
   const router = useRouter();
   const { slug } = router.query;
-  const { finalized, activeQuiz, refetchAppData } = useContext(AppContext);
+  const { finalized, activeQuiz, activeQuizTitle, refetchAppData } = useContext(
+    AppContext
+  );
   const { loading: isLoading, error, data } = useQuery(GET_QUIZ_QUERY, {
     variables: { slug },
   });
@@ -69,8 +72,59 @@ function Quiz() {
     if (thisQuizIsFinalized) {
       return (
         <Link href="/quiz/[slug]/results" as={`/quiz/${slug}/results`}>
-          <a className="btn btn--submit">See Results</a>
+          <a aria-label="See quiz results" className="btn btn--submit">
+            See Results
+          </a>
         </Link>
+      );
+    }
+
+    if (activeQuiz && !isActiveQuiz) {
+      return (
+        <Modal btnText="Start Quiz">
+          <div className="container">
+            <p className="current-quiz-alert-copy">
+              You are currently in the middle of taking{' '}
+              <span>{activeQuizTitle}</span>. Are you sure you want to start
+              another quiz? All progress will be lost on the current quiz.
+            </p>
+            <div className="btn-list">
+              <button
+                type="button"
+                aria-label="Close modal"
+                className="close btn btn--cancel"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                aria-label="Start taking quiz"
+                className="btn btn--submit"
+                onClick={async () => {
+                  const res = await takeQuiz({
+                    variables: { id: quiz.id },
+                  });
+
+                  if (res.errors) {
+                    return alert(res.errors[0].message);
+                  }
+
+                  await refetchAppData();
+
+                  document.querySelector('body').classList.remove('scrolled');
+                  document.querySelector('body').classList.remove('model-open');
+
+                  return router.push(
+                    '/quiz/[slug]/take-quiz/[qid]',
+                    `/quiz/${slug}/take-quiz/${quiz.questions[0].id}`
+                  );
+                }}
+              >
+                Start Quiz
+              </button>
+            </div>
+          </div>
+        </Modal>
       );
     }
 
@@ -86,31 +140,6 @@ function Quiz() {
                 return router.push(
                   '/quiz/[slug]/take-quiz/[qid]',
                   `/quiz/${slug}/take-quiz/${quiz.id}`
-                );
-              }
-
-              if (activeQuiz && activeQuiz !== slug) {
-                const isConfirmed = window.confirm(
-                  'Another quiz is already in progress. Are you sure you want to proceed?'
-                );
-
-                const res = await takeQuiz({ variables: { id: quiz.id } });
-
-                if (res.errors) {
-                  return alert(res.errors[0].message);
-                }
-
-                await refetchAppData();
-
-                if (!isConfirmed) {
-                  return router.push(
-                    '/quiz/[slug]',
-                    `/quiz/${res.data.takeQuiz.slug}`
-                  );
-                }
-                return router.push(
-                  '/quiz/[slug]/take-quiz/[qid]',
-                  `/quiz/${slug}/take-quiz/${quiz.questions[0].id}`
                 );
               }
 
@@ -180,9 +209,9 @@ const QuizStyles = styled.div`
     background-size: 100rem 10.4rem;
     border-radius: var(--br);
     cursor: progress;
+    margin-bottom: 2rem;
     overflow: hidden;
     position: relative;
-    margin-bottom: 2rem;
   }
 
   &.loading .heading {

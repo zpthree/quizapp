@@ -1,4 +1,3 @@
-// import 'dotenv';
 import withApollo from 'next-with-apollo';
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { onError } from '@apollo/link-error';

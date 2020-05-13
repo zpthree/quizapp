@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
+import Modal from '@components/Modal';
 
 const FINALIZE_QUIZ_MUTATION = gql`
   mutation FINALIZE_QUIZ_MUTATION($slug: String!) {
@@ -17,22 +18,37 @@ export default function FinalizeQuizBtn({ slug }) {
     errorPolicy: 'all',
   });
   return (
-    <button
-      className="btn btn--submit"
-      type="button"
-      onClick={async () => {
-        const isConfirmed = window.confirm(
-          'Are you sure you want to turn in the current quiz?'
-        );
+    <Modal btnText="Get Results">
+      <div className="container">
+        <p className="current-quiz-alert-copy">
+          Are you sure you want turn in the current quiz?
+        </p>
+        <div className="btn-list">
+          <button
+            type="button"
+            aria-label="Don't turn in the current quiz"
+            className="close btn btn--cancel"
+          >
+            Not yet
+          </button>
+          <button
+            type="button"
+            className="btn btn--submit"
+            aria-label="Turn in the current quiz"
+            onClick={async () => {
+              await getQuizResults({ variables: { slug } });
 
-        if (isConfirmed) {
-          await getQuizResults({ variables: { slug } });
-          router.push('/quiz/[slug]/results', `/quiz/${slug}/results`);
-        }
-      }}
-    >
-      <div>Get Results</div>
-    </button>
+              document.querySelector('body').classList.remove('scrolled');
+              document.querySelector('body').classList.remove('model-open');
+
+              router.push('/quiz/[slug]/results', `/quiz/${slug}/results`);
+            }}
+          >
+            Turn in
+          </button>
+        </div>
+      </div>
+    </Modal>
   );
 }
 

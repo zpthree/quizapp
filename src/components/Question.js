@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { gql, useQuery } from '@apollo/client';
-import useCorrectAnswer from '@hooks/CorrectAnswer';
 import QuestionStyles from '@styles/QuestionStyles';
 import Answer from '@components/Answer';
 import QuestionPlaceholder from '@components/QuestionPlaceholder';
 import FinalizeQuizBtn from '@components/FinalizeQuizBtn';
 import { AppContext } from '@components/AppContext';
-import formatPercent from '@lib/formatPercent';
 
 const GET_QUESTION_QUERY = gql`
   query GET_QUESTION_QUERY($id: ID!) {
@@ -43,15 +41,9 @@ export default function Question({ slug, qid }) {
     variables: { id: qid },
   });
 
-  const totalQuestions = answeredQuestions.length + remainingQuestions.length;
-
-  const progress = answeredQuestions.length / totalQuestions;
-
   const [isAnswered] = answeredQuestions.filter(
     ({ id: questionId }) => questionId === qid
   );
-
-  const isAnswer = useCorrectAnswer({ questionId: qid });
 
   if (!activeQuiz || (activeQuiz && activeQuiz !== slug)) {
     if (typeof document !== `undefined`) {
@@ -60,7 +52,7 @@ export default function Question({ slug, qid }) {
     return null;
   }
 
-  if (loading || !isAnswer) return <QuestionPlaceholder />;
+  if (loading) return <QuestionPlaceholder />;
   if (error) return `Error! ${error}`;
 
   const { answers, question, id } = data.oneQuestion;
@@ -88,6 +80,7 @@ export default function Question({ slug, qid }) {
         <div className="question-nav-links">
           <button
             type="button"
+            aria-label="Navigate to the previous view"
             className="btn btn--cancel"
             onClick={router.back}
           >
@@ -98,7 +91,12 @@ export default function Question({ slug, qid }) {
               href="/quiz/[slug]/take-quiz/[qid]"
               as={`/quiz/${slug}/take-quiz/${remainingQuestions[0].id}`}
             >
-              <a className="btn btn--submit">Next Unanswered Question</a>
+              <a
+                aria-label="Go to next unanswered question."
+                className="btn btn--submit"
+              >
+                Next Unanswered Question
+              </a>
             </Link>
           ) : null}
           {remainingQuestions.length && !isAnswered ? (

@@ -21,7 +21,7 @@ Router.onRouteChangeError = () => {
 export default function Header({ theme, route }) {
   return (
     <HeaderStyles theme={theme} route={route}>
-      <div className="inner">
+      <div className="container">
         <p id="logo">
           <Link href="/">
             <a>Quiz Garden</a>
@@ -29,10 +29,10 @@ export default function Header({ theme, route }) {
         </p>
         <nav>
           <Link href="/">
-            <a>Home</a>
+            <a aria-label="Go to the homepage">Home</a>
           </Link>
           <Link href="/quizzes">
-            <a>Quizzes</a>
+            <a aria-label="See a list of quizzes">Quizzes</a>
           </Link>
           <ToggleTheme />
         </nav>
@@ -47,12 +47,16 @@ Header.propTypes = {
 };
 
 const HeaderStyles = styled.header`
-  ${({ theme, route }) => {
-    if (route === '/' || theme !== 'dark') {
-      return 'background-color: var(--primary-color);';
+  ${({ route }) => {
+    if (route === '/') {
+      return `
+        --color: var(--white);
+      `;
     }
 
-    return 'background-color: var(--background-color);';
+    return `
+      --color: var(--text-color);
+    `;
   }};
 
   width: 100%;
@@ -61,17 +65,17 @@ const HeaderStyles = styled.header`
     display: none;
   }
 
-  .inner {
+  .container {
     align-items: center;
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
+    justify-content: space-between;
     padding: 0 var(--gutter);
   }
 
   #logo {
     border-radius: var(--br);
-    border: 2px solid var(--background-color);
+    border: 0.2rem solid var(--background-color);
     transition: transform var(--transition);
 
     &:hover {
@@ -79,7 +83,7 @@ const HeaderStyles = styled.header`
     }
 
     a {
-      color: var(--white);
+      color: var(--color);
       display: block;
       font-size: var(--fs-lg);
       font-weight: 600;
@@ -95,7 +99,9 @@ const HeaderStyles = styled.header`
 
   nav a {
     border-radius: var(--br);
-    color: var(--white);
+    color: var(--color);
+    font-weight: 600;
+    letter-spacing: 0.9px;
     margin: 0.5rem;
     padding: 0.4rem 1.2rem;
     transition: var(--transition-none);

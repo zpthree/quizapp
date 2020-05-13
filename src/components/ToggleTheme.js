@@ -18,6 +18,8 @@ export default function ToggleTheme() {
   return (
     <ThemeTogglerStyles
       type="button"
+      theme={theme}
+      aria-label="Toggle websites theme"
       onClick={async () => {
         const newTheme = theme === 'dark' ? 'light' : 'dark';
         await toggleTheme({
@@ -32,6 +34,20 @@ export default function ToggleTheme() {
 }
 
 const ThemeTogglerStyles = styled.button`
+  ${({ theme }) => {
+    if (theme === 'dark') {
+      return `
+        --color: var(--primary-color);
+        --background-color: var(--darkgrey);
+      `;
+    }
+
+    return `
+      --color: var(--white);
+      --background-color: var(--grey)
+    `;
+  }};
+
   /* The switch - the box around the slider */
   background: inherit;
   border: none;
@@ -45,7 +61,8 @@ const ThemeTogglerStyles = styled.button`
   /* The slider */
   .slider {
     -webkit-transition: var(--transition);
-    background-color: #ccc;
+    background-color: var(--background-color);
+    border-radius: 2.8rem;
     bottom: 0;
     cursor: pointer;
     left: 0;
@@ -56,7 +73,7 @@ const ThemeTogglerStyles = styled.button`
 
     &:before {
       -webkit-transition: var(--transition);
-      background-color: var(--white);
+      background-color: var(--color);
       border-radius: 50%;
       bottom: 0.6rem;
       content: '';
@@ -68,26 +85,9 @@ const ThemeTogglerStyles = styled.button`
     }
   }
 
-  .slider[data-dark-mode='true'] {
-    background-color: var(--bg-color-alt);
-  }
-
-  .slider[data-dark-mode='true']:before {
-    background-color: var(--primary-color);
-  }
-
-  input:focus + .slider {
-    box-shadow: 0 0 0.1rem var(--primary-color);
-  }
-
   .slider[data-dark-mode='true']:before {
     -ms-transform: translateX(2.6rem);
     -webkit-transform: translateX(2.6rem);
     transform: translateX(2.6rem);
-  }
-
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 2.8rem;
   }
 `;

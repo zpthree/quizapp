@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 import { lighten, darken } from 'polished';
 
 function getMaxWidth() {
+  // ? weird behavior on production - outputting 2400 when it should be 1500
   const isDocument = typeof document !== `undefined`;
 
   if (isDocument) {
@@ -10,15 +11,20 @@ function getMaxWidth() {
       .getComputedStyle(html, null)
       .getPropertyValue('font-size');
     const fontSize = parseFloat(style);
+    let maxWidth;
 
-    if (fontSize <= 10) return `1500px`;
-    return `${fontSize * 150}px`;
+    if (!fontSize) maxWidth = `1500px`;
+
+    if (fontSize <= 10) maxWidth = `1500px`;
+    maxWidth = `${fontSize * 150}px`;
+
+    return maxWidth;
   }
 }
 
 export const GlobalStyles = createGlobalStyle`
   :root {
-    --max-width: ${getMaxWidth()};
+    --max-width: 1500px;
     --small-page-width: 85rem;
     --transition: 400ms ease-in-out;
     --transition-none: all 0ms ease-in-out;
@@ -36,6 +42,7 @@ export const GlobalStyles = createGlobalStyle`
     /* colors */
     --black: #000;
     --charcoal: #0e0e0e;
+    --darkgrey: #272727;
     --grey: #ccc;
     --lightgrey: #f4f4f4;
     --white: #fff;
@@ -52,32 +59,42 @@ export const GlobalStyles = createGlobalStyle`
     --gutter: 2rem;
 
     ${({ theme }) => {
-      if (theme === 'dark') {
-        return `
-        --bg-color-alt: var(--charcoal);
-        --bg-color: var(--black);
-        --border-color: var(--charcoal);
-        --nprogress-bar: var(--white);
-        --text-color: var(--white);
-        `;
-      }
+      switch (theme) {
+        case 'dark':
+          return `
+            --bg-color-alt: var(--charcoal);
+            --bg-color: var(--black);
+            --border-color: var(--charcoal);
+            --nprogress-bar: var(--white);
+            --text-color: var(--white);
+          `;
 
-      return `
-      --bg-color-alt: var(--lightgrey);
-      --bg-color: var(--white);
-      --border-color: var(--grey);
-      --nprogress-bar: var(--white);
-      --text-color: var(--black);
-      `;
+        default:
+          return `
+            --bg-color-alt: var(--lightgrey);
+            --bg-color: var(--white);
+            --border-color: var(--grey);
+            --nprogress-bar: var(--black);
+            --text-color: var(--black);
+          `;
+      }
     }};
 
-    --bg-color: ${({ route }) => route === '/' && 'var(--primary-color)'};
+    ${({ route }) => {
+      if (route === '/') {
+        return `
+          --bg-color: var(--primary-color);
+          --nprogress-bar: var(--white);
+        `;
+      }
+    }}
 
-    @media screen and (min-width: 990px) {
+
+    @media screen and (min-width: 768px) {
       --gutter: 4rem;
     }
     @media screen and (min-width: 1920px) {
-      --max-width: 72%;
+      --max-width: 78.125%;
       --fs-root: .5vw;
     }
     @media print {
@@ -118,6 +135,14 @@ export const GlobalStyles = createGlobalStyle`
     font-family: sans-serif;
     font-size: var(--fs-base);
     line-height: 1.5;
+  }
+
+  body.scrolled {
+    overflow: hidden;
+  }
+
+  body.model-open #__next {
+    filter: blur(.2rem);
   }
 
   @media print {
