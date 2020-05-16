@@ -7,6 +7,10 @@ const APP_DATA_QUERY = gql`
     appData {
       activeUser {
         id
+        firstName
+        lastName
+        username
+        themeColor
       }
       theme
       activeQuiz
@@ -30,12 +34,18 @@ export default function AppProvider({ children }) {
 
   if (error) return `Error! ${error}`;
 
-  if (data)
+  if (data) {
+    let primaryColor;
+
+    if (data.appData.activeUser?.themeColor) {
+      primaryColor = JSON.parse(data.appData.activeUser?.themeColor);
+    }
     return (
       <AppContext.Provider
         value={{
           theme: data.appData.theme,
-          primaryColor: '#00a15c',
+          activeUser: data.appData.activeUser,
+          primaryColor: primaryColor?.hex ?? '#00a15c',
           finalized: data.appData.finalized,
           activeQuiz: data.appData.activeQuiz,
           activeQuizTitle: data.appData.activeQuizTitle,
@@ -47,6 +57,7 @@ export default function AppProvider({ children }) {
         {children}
       </AppContext.Provider>
     );
+  }
 
   return null;
 }

@@ -27,7 +27,7 @@ export default function Modal({ children, btnText }) {
       <button
         type="button"
         aria-label="Open alert modal"
-        className="btn btn--submit"
+        className="btn btn__submit"
         onClick={() => setOpen(true)}
       >
         {btnText}

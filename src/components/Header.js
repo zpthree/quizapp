@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import styled from 'styled-components';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import ToggleTheme from '@components/ToggleTheme';
+import Logo from '@icons/Logo';
+import { AppContext } from '@components/AppContext';
 
 Router.onRouteChangeStart = () => {
   NProgress.start();
@@ -19,12 +21,17 @@ Router.onRouteChangeError = () => {
 };
 
 export default function Header({ theme, route }) {
+  const { activeUser } = useContext(AppContext);
+
   return (
     <HeaderStyles theme={theme} route={route}>
       <div className="container">
         <p id="logo">
           <Link href="/">
-            <a>Quiz Garden</a>
+            <a>
+              <Logo />
+              <span>Quiz Garden</span>
+            </a>
           </Link>
         </p>
         <nav>
@@ -34,6 +41,15 @@ export default function Header({ theme, route }) {
           <Link href="/quizzes">
             <a aria-label="See a list of quizzes">Quizzes</a>
           </Link>
+          {activeUser?.firstName ? (
+            <Link href="/u/[username]" as={`/u/${activeUser.username}`}>
+              <a>{activeUser.firstName}</a>
+            </Link>
+          ) : (
+            <Link href="/sign-in">
+              <a aria-label="Sign in to your account">Sign In</a>
+            </Link>
+          )}
           <ToggleTheme />
         </nav>
       </div>
@@ -51,14 +67,27 @@ const HeaderStyles = styled.header`
     if (route === '/') {
       return `
         --color: var(--white);
+        --logo-color: var(--white);
+        --logo-hover: var(--black);
+        `;
+    }
+
+    if (route.includes('sign')) {
+      return `
+        --color: var(--text-color);
+        --logo-color: var(--bg-color);
+        --logo-hover: var(--text-color);
       `;
     }
 
     return `
       --color: var(--text-color);
+      --logo-color: var(--text-color);
+      --logo-hover: var(--primary-color-light);
     `;
   }};
-
+  position: relative;
+  z-index: 50;
   width: 100%;
 
   @media print {
@@ -75,20 +104,33 @@ const HeaderStyles = styled.header`
 
   #logo {
     border-radius: var(--br);
-    border: 0.2rem solid var(--background-color);
     transition: transform var(--transition);
 
-    &:hover {
-      transform: scale(1.05);
+    &:hover > a {
+      color: var(--logo-hover);
+
+      svg path {
+        fill: var(--logo-hover);
+      }
     }
 
     a {
-      color: var(--color);
-      display: block;
+      color: var(--logo-color);
+      display: flex;
+      align-items: center;
       font-size: var(--fs-lg);
       font-weight: 600;
       letter-spacing: 0.11rem;
       padding: 0.4rem 1.2rem;
+    }
+
+    span {
+      margin-top: 0.75rem;
+      margin-left: 0.5rem;
+    }
+
+    svg path {
+      fill: var(--logo-color);
     }
   }
 
@@ -101,7 +143,7 @@ const HeaderStyles = styled.header`
     border-radius: var(--br);
     color: var(--color);
     font-weight: 600;
-    letter-spacing: 0.9px;
+    letter-spacing: 0.09rem;
     margin: 0.5rem;
     padding: 0.4rem 1.2rem;
     transition: var(--transition-none);

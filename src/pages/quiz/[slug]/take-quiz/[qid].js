@@ -38,13 +38,12 @@ function QuestionPage() {
 
   return (
     <QuestionPageWrapper>
-      <div className="quiz-title">
-        <div className="inner">
-          <h1>{activeQuizTitle || 'Loading...'}</h1>
-        </div>
-      </div>
       <div className="wrapper inner">
-        <Question slug={slug} qid={qid} />
+        <div>
+          <h1>{activeQuizTitle || 'Loading...'}</h1>
+          <div className="separator" />
+          <Question slug={slug} qid={qid} />
+        </div>
         <QuestionNavigator />
       </div>
     </QuestionPageWrapper>
@@ -64,9 +63,19 @@ export const QuestionPageWrapper = styled.div`
   }
 
   h1 {
-    font-size: var(--fs-2xl);
-    margin: 0;
+    /* background-color: var(--text-color);
+    color: var(--bg-color); */
+    font-size: var(--fs-3xl);
+    margin: 0 0 2rem;
     width: 100%;
+    /* padding: 1rem 2rem; */
+  }
+
+  .separator {
+    width: 6rem;
+    height: 0.75rem;
+    margin: 1rem 0 5rem;
+    background-color: var(--text-color);
   }
 
   .wrapper.inner {
@@ -74,7 +83,7 @@ export const QuestionPageWrapper = styled.div`
     display: grid;
     grid-gap: 4rem;
     grid-template-columns: var(--columns);
-    padding: 4rem var(--gutter);
+    padding: 6rem var(--gutter);
     position: relative;
 
     @media screen and (min-width: 990px) {

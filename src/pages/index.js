@@ -17,7 +17,7 @@ function HomePage() {
               much more studying you need to do.
             </p>
             <Link href="/quizzes">
-              <a aria-label="See a list of quizzes" className="btn btn--submit">
+              <a aria-label="See a list of quizzes" className="btn btn__submit">
                 Take a quiz
               </a>
             </Link>
@@ -60,8 +60,9 @@ const HomePageStyles = styled.div`
       line-height: 1.8;
     }
 
-    .btn--submit {
+    .btn__submit {
       border: 0.2rem solid var(--white);
+      color: var(--white);
       display: inline-block;
     }
 

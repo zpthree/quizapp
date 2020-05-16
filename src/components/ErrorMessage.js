@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const ErrorStyles = styled.div`
   background: white;
-  border-left: 7.5px solid #e30d0d;
+  border-left: 0.75rem solid #e30d0d;
   margin: 2rem 0;
   padding: 1rem 1.5rem;
 

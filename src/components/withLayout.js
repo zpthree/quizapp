@@ -18,7 +18,7 @@ const withLayout = Component => props => {
         <main>
           <Component {...props} />
         </main>
-        <Footer route={route} />
+        {!route.includes('sign') && <Footer route={route} />}
       </>
     );
   }

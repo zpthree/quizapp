@@ -58,7 +58,7 @@ export const QuizListingStyles = styled.div`
   }
 
   a:hover {
-    color: var(--text-color-alt);
+    color: var(--primary-color-light);
   }
 `;
 

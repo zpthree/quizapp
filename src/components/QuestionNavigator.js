@@ -80,7 +80,7 @@ export default function QuestionNavigator() {
   );
 }
 
-const QuestionNavigatorStyles = styled.div`
+const QuestionNavigatorStyles = styled.aside`
   position: relative;
 
   .navigator-wrapper {

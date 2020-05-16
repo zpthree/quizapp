@@ -17,10 +17,8 @@ export const GET_QUIZ_QUERY = gql`
       description
       tags
       user {
-        name
-      }
-      user {
-        name
+        firstName
+        lastName
       }
       questions {
         id
@@ -72,7 +70,7 @@ function Quiz() {
     if (thisQuizIsFinalized) {
       return (
         <Link href="/quiz/[slug]/results" as={`/quiz/${slug}/results`}>
-          <a aria-label="See quiz results" className="btn btn--submit">
+          <a aria-label="See quiz results" className="btn btn__submit">
             See Results
           </a>
         </Link>
@@ -92,14 +90,14 @@ function Quiz() {
               <button
                 type="button"
                 aria-label="Close modal"
-                className="close btn btn--cancel"
+                className="close btn btn__cancel"
               >
                 Close
               </button>
               <button
                 type="button"
                 aria-label="Start taking quiz"
-                className="btn btn--submit"
+                className="btn btn__submit"
                 onClick={async () => {
                   const res = await takeQuiz({
                     variables: { id: quiz.id },
@@ -133,7 +131,7 @@ function Quiz() {
         <>
           <p>{quiz.questions.length} questions</p>
           <button
-            className="btn btn--submit"
+            className="btn btn__submit"
             type="button"
             onClick={async () => {
               if (activeQuiz && activeQuiz === slug) {
@@ -169,7 +167,7 @@ function Quiz() {
           href="/quiz/[slug]/take-quiz/[qid]"
           as={`/quiz/${slug}/take-quiz/${quiz.questions[0].id}`}
         >
-          <a className="btn btn--submit">Resume Quiz</a>
+          <a className="btn btn__submit">Resume Quiz</a>
         </Link>
       );
     }
@@ -220,7 +218,7 @@ const QuizStyles = styled.div`
   }
 
   &.loading .body {
-    min-height: 40rem;
+    min-height: 30rem;
   }
 
   &.loading .btn {

@@ -14,10 +14,7 @@ const ALL_QUIZZES_QUERY = gql`
       description
       tags
       user {
-        name
-      }
-      user {
-        name
+        firstName
       }
     }
   }
@@ -46,7 +43,7 @@ function QuizzesPage() {
   );
 }
 
-const QuizzesPageStyles = styled.div`
+export const QuizzesPageStyles = styled.div`
   display: grid;
   grid-gap: 4rem;
   grid-template-columns: 1fr;

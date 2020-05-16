@@ -48,8 +48,8 @@ export const GlobalStyles = createGlobalStyle`
     --white: #fff;
     --offwhite: #fdfdfd;
 
-    --primary-color: ${({ primaryColor: x }) => x};
     --primary-color-light: ${({ primaryColor: x }) => lighten(0.075, `${x}`)};
+    --primary-color: ${({ primaryColor: x }) => x};
     --primary-color-dark: ${({ primaryColor: x }) => darken(0.075, `${x}`)};
 
     --text-color-light: #999;
@@ -58,7 +58,7 @@ export const GlobalStyles = createGlobalStyle`
     --br: 2px;
     --gutter: 2rem;
 
-    ${({ theme }) => {
+    ${({ theme, primaryColor }) => {
       switch (theme) {
         case 'dark':
           return `
@@ -67,6 +67,10 @@ export const GlobalStyles = createGlobalStyle`
             --border-color: var(--charcoal);
             --nprogress-bar: var(--white);
             --text-color: var(--white);
+            --primary-color: ${darken(0.15, primaryColor)};
+            --primary-color-light: ${({ primaryColor: x }) => x};
+            --primary-color-dark: ${({ primaryColor: x }) =>
+              darken(0.225, `${x}`)};
           `;
 
         default:
@@ -93,10 +97,12 @@ export const GlobalStyles = createGlobalStyle`
     @media screen and (min-width: 768px) {
       --gutter: 4rem;
     }
+
     @media screen and (min-width: 1920px) {
       --max-width: 78.125%;
-      --fs-root: .5vw;
+      --fs-root: .52vw;
     }
+
     @media print {
       --bg-color-alt: var(--lightgrey);
       --bg-color: var(--white);
@@ -178,7 +184,7 @@ export const GlobalStyles = createGlobalStyle`
     transition: var(--transition-none);
   }
 
-  .btn.btn--submit {
+  .btn.btn__submit {
     --background-color: var(--primary-color);
     color: var(--white);
 
@@ -194,7 +200,7 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  .btn.btn--cancel {
+  .btn.btn__cancel {
     --background-color: var(--grey);
 
     &:hover {

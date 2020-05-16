@@ -37,14 +37,14 @@ const ThemeTogglerStyles = styled.button`
   ${({ theme }) => {
     if (theme === 'dark') {
       return `
-        --color: var(--primary-color);
-        --background-color: var(--darkgrey);
+        --color: var(--black);
+        --background-color: var(--text-color-light);
       `;
     }
 
     return `
       --color: var(--white);
-      --background-color: var(--grey)
+      --background-color: var(--text-color)
     `;
   }};
 
@@ -52,42 +52,38 @@ const ThemeTogglerStyles = styled.button`
   background: inherit;
   border: none;
   display: inline-block;
-  height: 3.4rem;
+  width: 4rem;
   margin-left: 2rem;
   outline: none;
+  padding: 0.5rem 1rem;
   position: relative;
-  width: 6rem;
+  height: 4rem;
+  cursor: pointer;
 
-  /* The slider */
   .slider {
-    -webkit-transition: var(--transition);
-    background-color: var(--background-color);
-    border-radius: 2.8rem;
-    bottom: 0;
-    cursor: pointer;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
+    display: inline-block;
+    border: 0.3rem solid var(--text-color);
+    border-radius: var(--br);
     transition: var(--transition);
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    position: relative;
 
     &:before {
       -webkit-transition: var(--transition);
-      background-color: var(--color);
-      border-radius: 50%;
-      bottom: 0.6rem;
+      background-color: var(--text-color);
+      right: 0;
       content: '';
-      height: 2.2rem;
-      left: 0.6rem;
+      left: 0;
+      top: 0;
       position: absolute;
       transition: var(--transition);
-      width: 2.2rem;
+      height: 1.4rem;
     }
   }
 
   .slider[data-dark-mode='true']:before {
-    -ms-transform: translateX(2.6rem);
-    -webkit-transform: translateX(2.6rem);
-    transform: translateX(2.6rem);
+    transform: translateY(1.4rem);
   }
 `;

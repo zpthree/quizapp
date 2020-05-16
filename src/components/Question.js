@@ -24,7 +24,8 @@ const GET_QUESTION_QUERY = gql`
         id
         title
         user {
-          name
+          firstName
+          lastName
           username
         }
       }
@@ -81,7 +82,7 @@ export default function Question({ slug, qid }) {
           <button
             type="button"
             aria-label="Navigate to the previous view"
-            className="btn btn--cancel"
+            className="btn btn__cancel"
             onClick={router.back}
           >
             Go Back
@@ -93,14 +94,14 @@ export default function Question({ slug, qid }) {
             >
               <a
                 aria-label="Go to next unanswered question."
-                className="btn btn--submit"
+                className="btn btn__submit"
               >
                 Next Unanswered Question
               </a>
             </Link>
           ) : null}
           {remainingQuestions.length && !isAnswered ? (
-            <p className="btn btn--submit" aria-disabled="true">
+            <p className="btn btn__submit" aria-disabled="true">
               Next Unanswered Question
             </p>
           ) : null}

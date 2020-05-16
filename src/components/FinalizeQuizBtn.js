@@ -27,13 +27,13 @@ export default function FinalizeQuizBtn({ slug }) {
           <button
             type="button"
             aria-label="Don't turn in the current quiz"
-            className="close btn btn--cancel"
+            className="close btn btn__cancel"
           >
             Not yet
           </button>
           <button
             type="button"
-            className="btn btn--submit"
+            className="btn btn__submit"
             aria-label="Turn in the current quiz"
             onClick={async () => {
               await getQuizResults({ variables: { slug } });
