@@ -78,6 +78,7 @@ const ThemePageStyles = styled.div`
 
   .block-picker {
     border: 0.1rem solid var(--border-color);
+    border-radius: var(--br) !important;
     box-shadow: none !important;
     max-width: 40rem;
     width: 100% !important;
@@ -88,7 +89,20 @@ const ThemePageStyles = styled.div`
   }
 
   .block-picker > div:nth-child(2) {
+    border-radius: 0 !important;
     height: 25rem !important;
+  }
+
+  .block-picker > div:last-child {
+    background-color: var(--bg-color);
+    border-radius: 0 !important;
+  }
+
+  .block-picker > div:last-child input {
+    background-color: var(--bg-color);
+    color: var(--text-color) !important;
+    box-shadow: none !important;
+    border: 0.1rem solid var(--border-color) !important;
   }
 
   .block-picker > div:nth-child(3) > div:first-child > span > div {

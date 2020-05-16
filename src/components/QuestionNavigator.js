@@ -91,7 +91,7 @@ const QuestionNavigatorStyles = styled.aside`
   }
 
   nav {
-    max-height: calc(100vh - 34rem);
+    max-height: calc(100vh - 29rem);
     overflow-y: auto;
   }
 

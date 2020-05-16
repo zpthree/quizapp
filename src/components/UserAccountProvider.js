@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { useQuery, gql } from '@apollo/client';
+import { AppContext } from '@components/AppContext';
 
 export const UserAccountContext = React.createContext({});
 
@@ -26,6 +27,7 @@ const GET_USER_QUERY = gql`
 
 export default function UserAccountProvider({ children }) {
   const isDocument = typeof document !== `undefined`;
+  const { activeUser } = useContext(AppContext);
   const [user, setUser] = useState();
   const [quizzes, setQuizzes] = useState();
   const { query } = useRouter();
@@ -41,8 +43,13 @@ export default function UserAccountProvider({ children }) {
     }
   }, [data, isDocument]);
 
-  if (loading) return <div>Loading...</div>;
   if (error) return `Error! ${error}`;
+  if (loading && !user) return null;
+
+  if (isDocument && user && activeUser && user.id !== activeUser.id) {
+    window.location.href = '/';
+    return null;
+  }
 
   return (
     <UserAccountContext.Provider value={{ user, quizzes }}>
