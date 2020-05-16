@@ -37,8 +37,8 @@ const ThemeTogglerStyles = styled.button`
   ${({ theme }) => {
     if (theme === 'dark') {
       return `
-        --color: var(--black);
-        --background-color: var(--text-color-light);
+        --color: var(--primary-color-light);
+        --background-color: var(--white);
       `;
     }
 
@@ -55,15 +55,15 @@ const ThemeTogglerStyles = styled.button`
   width: 4rem;
   margin-left: 2rem;
   outline: none;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   position: relative;
   height: 4rem;
   cursor: pointer;
 
   .slider {
     display: inline-block;
-    border: 0.3rem solid var(--text-color);
-    border-radius: var(--br);
+    border: 0.3rem solid var(--background-color);
+    border-radius: 50%;
     transition: var(--transition);
     overflow: hidden;
     height: 100%;
@@ -71,19 +71,18 @@ const ThemeTogglerStyles = styled.button`
     position: relative;
 
     &:before {
-      -webkit-transition: var(--transition);
-      background-color: var(--text-color);
+      background-color: var(--background-color);
       right: 0;
       content: '';
       left: 0;
-      top: 0;
+      bottom: 50%;
       position: absolute;
       transition: var(--transition);
-      height: 1.4rem;
+      height: 50%;
     }
   }
 
-  .slider[data-dark-mode='true']:before {
-    transform: translateY(1.4rem);
+  .slider[data-dark-mode='true'] {
+    transform: rotate(180deg);
   }
 `;

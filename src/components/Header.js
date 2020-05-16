@@ -104,7 +104,6 @@ const HeaderStyles = styled.header`
 
   #logo {
     border-radius: var(--br);
-    transition: transform var(--transition);
 
     &:hover > a {
       color: var(--logo-hover);

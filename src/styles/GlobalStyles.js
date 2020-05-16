@@ -41,7 +41,7 @@ export const GlobalStyles = createGlobalStyle`
 
     /* colors */
     --black: #000;
-    --charcoal: #0e0e0e;
+    --charcoal: #0f0f0f;
     --darkgrey: #272727;
     --grey: #ccc;
     --lightgrey: #f4f4f4;
@@ -67,10 +67,9 @@ export const GlobalStyles = createGlobalStyle`
             --border-color: var(--charcoal);
             --nprogress-bar: var(--white);
             --text-color: var(--white);
-            --primary-color: ${darken(0.15, primaryColor)};
-            --primary-color-light: ${({ primaryColor: x }) => x};
-            --primary-color-dark: ${({ primaryColor: x }) =>
-              darken(0.225, `${x}`)};
+            --primary-color: ${darken(0.075, primaryColor)};
+            --primary-color-light: ${primaryColor};
+            --primary-color-dark: ${darken(0.15, primaryColor)};
           `;
 
         default:
