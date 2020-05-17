@@ -62,22 +62,22 @@ const ThemeTogglerStyles = styled.button`
 
   .slider {
     display: inline-block;
+    background-color: var(--background-color);
     border: 0.3rem solid var(--background-color);
     border-radius: 50%;
-    transition: var(--transition);
+    transition: transform var(--transition);
     overflow: hidden;
     height: 100%;
     width: 100%;
     position: relative;
 
     &:before {
-      background-color: var(--background-color);
+      background-color: var(--bg-color);
       right: 0;
       content: '';
       left: 0;
       bottom: 50%;
       position: absolute;
-      transition: var(--transition);
       height: 50%;
     }
   }

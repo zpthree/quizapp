@@ -73,6 +73,7 @@ export const SignInPageStyles = styled.div`
     display: grid;
     align-items: center;
     justify-content: center;
+    padding: 4rem 0;
   }
 
   .auth > div {

@@ -1,3 +1,3 @@
-import quizzes from '@pages/u/[username]/quizzes';
+import updateInfo from '@pages/u/[username]/update-info';
 
-export default quizzes;
+export default updateInfo;

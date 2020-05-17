@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import withLayout from '@components/withLayout';
-import Error from '@components/ErrorMessage';
+import Error from '@components/Form/ErrorMessage';
 import { AppContext } from '@components/AppContext';
 import { loading } from '@styles/AnswerStyles';
 import Modal from '@components/Modal';

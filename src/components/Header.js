@@ -21,7 +21,7 @@ Router.onRouteChangeError = () => {
 };
 
 export default function Header({ theme, route }) {
-  const { activeUser } = useContext(AppContext);
+  const { activeUser, finalized } = useContext(AppContext);
 
   return (
     <HeaderStyles theme={theme} route={route}>
@@ -48,6 +48,11 @@ export default function Header({ theme, route }) {
           ) : (
             <Link href="/sign-in">
               <a aria-label="Sign in to your account">Sign In</a>
+            </Link>
+          )}
+          {finalized && (
+            <Link href="/quiz/[slug]/results" as={`/quiz/${finalized}/results`}>
+              <a>Results</a>
             </Link>
           )}
           <ToggleTheme />

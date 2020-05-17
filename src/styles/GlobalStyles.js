@@ -26,7 +26,7 @@ export const GlobalStyles = createGlobalStyle`
   :root {
     --max-width: 1500px;
     --small-page-width: 85rem;
-    --transition: 400ms ease-in-out;
+    --transition: 200ms ease-in-out;
     --transition-none: all 0ms ease-in-out;
 
     /* font */
@@ -64,7 +64,7 @@ export const GlobalStyles = createGlobalStyle`
           return `
             --bg-color-alt: var(--charcoal);
             --bg-color: var(--black);
-            --border-color: var(--charcoal);
+            --border-color: var(--darkgrey);
             --nprogress-bar: var(--white);
             --text-color: var(--white);
             --primary-color: ${darken(0.075, primaryColor)};
@@ -121,15 +121,12 @@ export const GlobalStyles = createGlobalStyle`
   html {
     box-sizing: border-box;
     font-size: var(--fs-root);
-    transition: background-color var(--transition),
-                border-color var(--transition);
   }
 
   *,
   *:before,
   *:after {
     box-sizing: inherit;
-    transition: inherit;
   }
 
   body {

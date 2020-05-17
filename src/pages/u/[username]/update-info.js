@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 import UserAccount from '@components/UserAccount';
 import { UserAccountContext } from '@components/UserAccountProvider';
 import { useMutation, gql } from '@apollo/client';
-import { SignInFormStyles } from '@components/SignIn';
+import FormWrapper from '@styles/FormWrapper';
 import { AppContext } from '@components/AppContext';
-import { Field } from '@components/Form';
+import Form, { Field } from '@components/Form';
 
 const UPDATE_USER_MUTATION = gql`
   mutation UPDATE_USER_MUTATION(
@@ -31,40 +31,44 @@ const UPDATE_USER_MUTATION = gql`
   }
 `;
 
-function UserPage() {
+export default function UserPage() {
   function UserAccountLayout() {
     const router = useRouter();
-    const [updateUser, { loading }] = useMutation(UPDATE_USER_MUTATION);
+    const [updateUser, { loading, error }] = useMutation(UPDATE_USER_MUTATION, {
+      errorPolicy: 'all',
+    });
     const { refetchAppData } = useContext(AppContext);
     const { user } = useContext(UserAccountContext);
 
     if (!user) return null;
 
     return (
-      <UserInfoPageStyles
-        method="post"
-        onSubmit={async e => {
-          e.preventDefault();
-          const { firstName, lastName, username, email } = e.target;
+      <UserInfoPageStyles>
+        <Form
+          loading={loading}
+          error={error}
+          btnText="Update"
+          onSubmit={async e => {
+            e.preventDefault();
+            const { firstName, lastName, username, email } = e.target;
 
-          await updateUser({
-            variables: {
-              id: user.id,
-              firstName: firstName.value,
-              lastName: lastName.value,
-              username: username.value,
-              email: email.value,
-            },
-          });
+            await updateUser({
+              variables: {
+                id: user.id,
+                firstName: firstName.value,
+                lastName: lastName.value,
+                username: username.value,
+                email: email.value,
+              },
+            });
 
-          await refetchAppData();
-          router.push(
-            '/u/[username]/update-info',
-            `/u/${username.value}/update-info`
-          );
-        }}
-      >
-        <fieldset disabled={loading} aria-busy={loading}>
+            await refetchAppData();
+            router.push(
+              '/u/[username]/update-info',
+              `/u/${username.value}/update-info`
+            );
+          }}
+        >
           <Field type="text" label="First Name" defaultValue={user.firstName} />
           <Field
             type="text"
@@ -73,10 +77,7 @@ function UserPage() {
           />
           <Field type="text" label="Username" defaultValue={user.username} />
           <Field type="email" label="Email" defaultValue={user.email} />
-          <button type="submit" className="btn btn__submit">
-            Update
-          </button>
-        </fieldset>
+        </Form>
       </UserInfoPageStyles>
     );
   }
@@ -88,9 +89,11 @@ function UserPage() {
   );
 }
 
-const UserInfoPageStyles = styled(SignInFormStyles)`
-  max-width: none;
-  box-shadow: none;
+const UserInfoPageStyles = styled(FormWrapper)`
+  form {
+    max-width: none;
+    box-shadow: none;
+  }
 
   fieldset {
     display: grid;
@@ -101,5 +104,3 @@ const UserInfoPageStyles = styled(SignInFormStyles)`
     margin-left: auto;
   }
 `;
-
-export default UserPage;

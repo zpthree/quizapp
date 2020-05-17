@@ -25,14 +25,22 @@ UserAccount.propTypes = {
 
 const UserAccountStyles = styled.div`
   width: 100%;
-  margin: 4rem auto;
+  margin: 0 auto 4rem;
   max-width: 120rem;
+  padding: 2rem var(--gutter);
   display: grid;
-  grid-template-columns: 30rem auto;
+
+  @media screen and (min-width: 990px) {
+    grid-template-columns: 30rem auto;
+    margin-top: 4rem;
+  }
 
   .container {
     border-top: none;
-    padding: 0 4rem;
+
+    @media screen and (min-width: 990px) {
+      padding-left: 4rem;
+    }
 
     h1 {
       margin: 0;

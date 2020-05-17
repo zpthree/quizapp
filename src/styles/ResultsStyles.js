@@ -60,12 +60,6 @@ const ResultsStyles = styled.div`
     font-size: var(--fs-lg);
   }
 
-  h2 {
-    display: grid;
-    font-size: var(--fs-base);
-    grid-template-columns: 3rem auto;
-  }
-
   p {
     font-size: var(--fs-md);
   }
@@ -73,6 +67,12 @@ const ResultsStyles = styled.div`
   .results-question {
     page-break-inside: avoid;
     margin-bottom: 4rem;
+
+    h2 {
+      display: grid;
+      font-size: var(--fs-base);
+      grid-template-columns: 3rem auto;
+    }
   }
 
   .question-explanation {

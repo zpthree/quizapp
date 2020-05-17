@@ -1,8 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
+import { useRouter } from 'next/router';
 import { useMutation, gql } from '@apollo/client';
 import { AppContext } from '@components/AppContext';
-import { SignInFormStyles } from '@components/SignIn';
-import { Field } from '@components/Form';
+import FormWrapper from '@styles/FormWrapper';
+import Form, { Field } from '@components/Form';
 import Logo from '@icons/Logo';
 
 const CREATE_USER_MUTATION = gql`
@@ -30,41 +31,45 @@ const CREATE_USER_MUTATION = gql`
 `;
 
 export default function SignIn() {
-  const [createUser] = useMutation(CREATE_USER_MUTATION);
+  const [createUser, { loading, error }] = useMutation(CREATE_USER_MUTATION, {
+    errorPolicy: 'all',
+  });
   const { refetchAppData } = useContext(AppContext);
+  const router = useRouter();
 
   return (
     <div>
-      <SignInFormStyles
-        method="post"
-        onSubmit={async e => {
-          e.preventDefault();
-          const { firstName, lastName, username, email, password } = e.target;
-          await createUser({
-            variables: {
-              firstName: firstName.value,
-              lastName: lastName.value,
-              email: email.value,
-              username: username.value,
-              password: password.value,
-            },
-          });
-          refetchAppData();
-        }}
-      >
-        <div className="logo">
-          <Logo />
-        </div>
-        <Field type="text" label="First Name" />
-        <Field type="text" label="Last Name" />
-        <Field type="text" label="Username" />
-        <Field type="email" label="Email" />
-        <Field type="Password" label="Password" />
-
-        <button type="submit" className="btn btn__submit">
-          Sign Up
-        </button>
-      </SignInFormStyles>
+      <FormWrapper>
+        <Form
+          loading={loading}
+          error={error}
+          btnText="Sign Up"
+          onSubmit={async e => {
+            e.preventDefault();
+            const { firstName, lastName, username, email, password } = e.target;
+            await createUser({
+              variables: {
+                firstName: firstName.value,
+                lastName: lastName.value,
+                email: email.value,
+                username: username.value,
+                password: password.value,
+              },
+            });
+            await refetchAppData();
+            router.push('/quizzes');
+          }}
+        >
+          <div className="logo">
+            <Logo />
+          </div>
+          <Field type="text" label="First Name" />
+          <Field type="text" label="Last Name" />
+          <Field type="text" label="Username" />
+          <Field type="email" label="Email" />
+          <Field type="Password" label="Password" />
+        </Form>
+      </FormWrapper>
     </div>
   );
 }

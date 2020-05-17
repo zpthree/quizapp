@@ -21,7 +21,7 @@ export default function FinalizeQuizBtn({ slug }) {
     <Modal btnText="Get Results">
       <div className="container">
         <p className="current-quiz-alert-copy">
-          Are you sure you want turn in the current quiz?
+          Are you sure you want to turn in the current quiz?
         </p>
         <div className="btn-list">
           <button

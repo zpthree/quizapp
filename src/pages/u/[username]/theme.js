@@ -26,10 +26,6 @@ function UserPage() {
       setColor(JSON.parse(user?.themeColor));
     }, [user]);
 
-    if (user) {
-      console.log(user.themeColor);
-    }
-
     return (
       <ThemePageStyles>
         <h1>Set the primary color to be your favorite color!</h1>

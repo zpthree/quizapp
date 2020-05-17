@@ -6,15 +6,14 @@ import { UserAccountContext } from '@components/UserAccountProvider';
 import SignOut from '@components/SignOut';
 
 export default function UserPageNav({ theme }) {
-  // TODO ? do i need this here
-  const { user } = useContext(UserAccountContext);
+  const { user, quizzes } = useContext(UserAccountContext);
 
-  if (!user) return <div>Loading...</div>;
+  if (!user) return null;
 
   return (
     <UserPageNavStyles theme={theme}>
       <nav>
-        {user.quizzes?.length && (
+        {quizzes?.length && (
           <Link href="/u/[username]/quizzes" as={`/u/${user.username}/quizzes`}>
             <a>My Quizzes</a>
           </Link>
@@ -63,6 +62,10 @@ const UserPageNavStyles = styled.aside`
 
   border-radius: var(--br);
   transition: var(--transition-none);
+
+  @media screen and (max-width: 990px) {
+    margin-bottom: 4rem;
+  }
 
   nav {
     background-color: var(--bg-color-alt);

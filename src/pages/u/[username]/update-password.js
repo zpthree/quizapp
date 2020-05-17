@@ -4,10 +4,9 @@ import { useRouter } from 'next/router';
 import UserAccount from '@components/UserAccount';
 import { UserAccountContext } from '@components/UserAccountProvider';
 import { useMutation, gql } from '@apollo/client';
-import { SignInFormStyles } from '@components/SignIn';
+import FormWrapper from '@styles/FormWrapper';
 import { AppContext } from '@components/AppContext';
-import { Field } from '@components/Form';
-import Error from '@components/ErrorMessage';
+import Form, { Field } from '@components/Form';
 
 const UPDATE_PASSWORD_MUTATION = gql`
   mutation UPDATE_PASSWORD_MUTATION(
@@ -43,39 +42,37 @@ function UserPage() {
     if (!user) return null;
 
     return (
-      <UserInfoPageStyles
-        method="post"
-        onSubmit={async e => {
-          e.preventDefault();
-          const { oldPassword, newPassword, confirmPassword } = e.target;
+      <UserInfoPageStyles>
+        <Form
+          loading={loading}
+          error={error}
+          btnText="Update"
+          onSubmit={async e => {
+            e.preventDefault();
+            const { oldPassword, newPassword, confirmPassword } = e.target;
 
-          const res = await updatePassword({
-            variables: {
-              username: user.username,
-              oldPassword: oldPassword.value,
-              password: newPassword.value,
-              confirmPassword: confirmPassword.value,
-            },
-          });
+            const res = await updatePassword({
+              variables: {
+                username: user.username,
+                oldPassword: oldPassword.value,
+                password: newPassword.value,
+                confirmPassword: confirmPassword.value,
+              },
+            });
 
-          if (!res.errors?.length) {
-            await refetchAppData();
-            router.push(
-              '/u/[username]/update-password',
-              `/u/${user.username}/update-password`
-            );
-          }
-        }}
-      >
-        <fieldset disabled={loading} aria-busy={loading}>
-          {error && <Error error={error} />}
-          <Field type="password" label="Old Password" defaultValue="" />
-          <Field type="password" label="New Password" defaultValue="" />
-          <Field type="password" label="Confirm Password" defaultValue="" />
-          <button type="submit" className="btn btn__submit">
-            Update
-          </button>
-        </fieldset>
+            if (!res.errors?.length) {
+              await refetchAppData();
+              router.push(
+                '/u/[username]/update-password',
+                `/u/${user.username}/update-password`
+              );
+            }
+          }}
+        >
+          <Field type="password" label="Old Password" />
+          <Field type="password" label="New Password" />
+          <Field type="password" label="Confirm Password" />
+        </Form>
       </UserInfoPageStyles>
     );
   }
@@ -87,9 +84,11 @@ function UserPage() {
   );
 }
 
-const UserInfoPageStyles = styled(SignInFormStyles)`
-  max-width: none;
-  box-shadow: none;
+const UserInfoPageStyles = styled(FormWrapper)`
+  form {
+    max-width: none;
+    box-shadow: none;
+  }
 
   fieldset {
     display: grid;
