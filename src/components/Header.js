@@ -41,6 +41,11 @@ export default function Header({ theme, route }) {
           <Link href="/quizzes">
             <a aria-label="See a list of quizzes">Quizzes</a>
           </Link>
+          {finalized && (
+            <Link href="/quiz/[slug]/results" as={`/quiz/${finalized}/results`}>
+              <a>Results</a>
+            </Link>
+          )}
           {activeUser?.firstName ? (
             <Link href="/u/[username]" as={`/u/${activeUser.username}`}>
               <a>{activeUser.firstName}</a>
@@ -48,11 +53,6 @@ export default function Header({ theme, route }) {
           ) : (
             <Link href="/sign-in">
               <a aria-label="Sign in to your account">Sign In</a>
-            </Link>
-          )}
-          {finalized && (
-            <Link href="/quiz/[slug]/results" as={`/quiz/${finalized}/results`}>
-              <a>Results</a>
             </Link>
           )}
           <ToggleTheme />

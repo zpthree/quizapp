@@ -73,16 +73,16 @@ const ThemeTogglerStyles = styled.button`
 
     &:before {
       background-color: var(--bg-color);
-      right: 0;
+      right: 50%;
       content: '';
-      left: 0;
-      bottom: 50%;
+      top: 0;
+      bottom: 0;
       position: absolute;
-      height: 50%;
+      width: 50%;
     }
   }
 
   .slider[data-dark-mode='true'] {
-    transform: rotate(180deg);
+    /* transform: rotate(-360deg); */
   }
 `;

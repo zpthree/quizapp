@@ -24,13 +24,13 @@ const ResultsStyles = styled.div`
     padding: 2rem var(--gutter);
     position: relative;
     width: 100%;
-  }
 
-  @media print {
-    border: none;
-    box-shadow: none;
-    margin-top: 0;
-    width: 8.5in;
+    @media print {
+      border: none;
+      box-shadow: none;
+      margin-top: 0;
+      width: 8.5in;
+    }
   }
 
   .grade {

@@ -8,7 +8,7 @@ export default function Footer({ route }) {
     <FooterStyles route={route}>
       <div className="inner">
         <p>
-          &copy; Created by{' '}
+          &copy; Made by{' '}
           <a
             target="_blank"
             rel="noreferrer noopener"
@@ -17,6 +17,29 @@ export default function Footer({ route }) {
             Zach Patrick
           </a>
         </p>
+        <div>
+          <a
+            target="_blank"
+            rel="noreferrer noopener"
+            href="https://github.com/zpthree/quizapp"
+          >
+            <GitHub />
+          </a>
+          <a
+            target="_blank"
+            rel="noreferrer noopener"
+            href="https://twitter.com/zpthree"
+          >
+            <Twitter />
+          </a>
+          <a
+            target="_blank"
+            rel="noreferrer noopener"
+            href="https://api.quizgarden.io"
+          >
+            API
+          </a>
+        </div>
       </div>
     </FooterStyles>
   );
@@ -40,6 +63,10 @@ const FooterStyles = styled.footer`
       --color-hover: var(--text-color)
     `;
   }};
+
+  @media print {
+    display: none;
+  }
 
   font-size: var(--fs-md);
   height: 8rem;
@@ -96,6 +123,12 @@ const FooterStyles = styled.footer`
     & > p {
       margin: 0 2rem;
       padding: 0 2rem;
+    }
+
+    p:first-child {
+      @media screen and (min-width: 768px) {
+        border-right: 0.1rem solid var(--border-color);
+      }
     }
 
     & > p,
