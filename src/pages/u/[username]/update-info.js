@@ -69,13 +69,9 @@ export default function UserPage() {
             );
           }}
         >
-          <Field type="text" label="First Name" defaultValue={user.firstName} />
-          <Field
-            type="text"
-            label="Last Name"
-            defaultValue={user.lastName ?? ''}
-          />
-          <Field type="text" label="Username" defaultValue={user.username} />
+          <Field label="First Name" defaultValue={user.firstName} />
+          <Field label="Last Name" defaultValue={user.lastName ?? ''} />
+          <Field label="Username" defaultValue={user.username} />
           <Field type="email" label="Email" defaultValue={user.email} />
         </Form>
       </UserInfoPageStyles>

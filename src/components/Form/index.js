@@ -17,6 +17,19 @@ export default function Form({ children, loading, error, onSubmit, btnText }) {
   );
 }
 
+Form.propTypes = {
+  children: PropTypes.node.isRequired,
+  loading: PropTypes.bool,
+  error: PropTypes.object,
+  onSubmit: PropTypes.func,
+  btnText: PropTypes.string,
+};
+
+Form.defaultProps = {
+  btnText: 'Submit',
+  loading: false,
+};
+
 export function Field({ type, label, defaultValue, placeholder }) {
   const [value, setValue] = useState();
 
@@ -25,19 +38,16 @@ export function Field({ type, label, defaultValue, placeholder }) {
   }, [defaultValue]);
 
   const newLabel =
-    label
-      .replace(/\s+/g, '')
-      .charAt(0)
-      .toLowerCase() + label.slice(1);
+    label.charAt(0).toLowerCase() + label.slice(1).replace(/\s+/g, '');
 
   return (
-    <FieldStyles htmlFor={newLabel.replace(/\s+/g, '')}>
+    <FieldStyles htmlFor={newLabel}>
       <p>{label}</p>
       <input
         type={type}
-        id={newLabel.replace(/\s+/g, '')}
+        id={newLabel}
         placeholder={placeholder}
-        name={newLabel.replace(/\s+/g, '')}
+        name={newLabel}
         defaultValue={value}
         onChange={e => setValue(e.target.value)}
       />
@@ -63,20 +73,8 @@ const FieldStyles = styled.label`
   }
 `;
 
-Form.propTypes = {
-  children: PropTypes.node.isRequired,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.object,
-  onSubmit: PropTypes.func,
-  btnText: PropTypes.string,
-};
-
-Form.defaultProps = {
-  btnText: 'Submit',
-};
-
 Field.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   defaultValue: PropTypes.string,
@@ -85,4 +83,5 @@ Field.propTypes = {
 Field.defaultProps = {
   defaultValue: '',
   placeholder: '',
+  type: 'text',
 };

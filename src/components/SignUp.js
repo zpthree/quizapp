@@ -63,9 +63,9 @@ export default function SignIn() {
           <div className="logo">
             <Logo />
           </div>
-          <Field type="text" label="First Name" />
-          <Field type="text" label="Last Name" />
-          <Field type="text" label="Username" />
+          <Field label="First Name" />
+          <Field label="Last Name" />
+          <Field label="Username" />
           <Field type="email" label="Email" />
           <Field type="Password" label="Password" />
         </Form>
